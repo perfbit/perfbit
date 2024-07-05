@@ -1,4 +1,3 @@
-// internal/api/handlers.go
 package api
 
 import (
@@ -6,9 +5,9 @@ import (
 
     "github.com/gin-gonic/gin"
     "dev-performance-analytics/internal/services"
+    "dev-performance-analytics/pkg/config"
 )
 
-// Placeholder for user authentication
 var users = map[string]string{
     "user1": "password1",
     "user2": "password2",
