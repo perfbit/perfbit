@@ -1,11 +1,10 @@
-// internal/api/handlers.go
 package api
 
 import (
 	"net/http"
 
-    "github.com/gin-gonic/gin"
-    "dev-performance-analytics/internal/services"
+	"github.com/gin-gonic/gin"
+	"dev-performance-analytics/internal/services"
 )
 
 var users = map[string]string{
@@ -13,7 +12,7 @@ var users = map[string]string{
 	"user2": "password2",
 }
 
-func loginHandler(c *gin.Context) {
+func LoginHandler(c *gin.Context) {
 	var loginData struct {
 		Username string `json:"username"`
 		Password string `json:"password"`
@@ -33,7 +32,7 @@ func loginHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
 }
 
-func getRepositoriesHandler(c *gin.Context) {
+func GetRepositoriesHandler(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 	repos, err := services.GetRepositories(token)
 	if err != nil {
@@ -44,7 +43,7 @@ func getRepositoriesHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, repos)
 }
 
-func getBranchesHandler(c *gin.Context) {
+func GetBranchesHandler(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 	owner := c.Param("id")
 	repo := c.Param("repo")
@@ -58,7 +57,7 @@ func getBranchesHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, branches)
 }
 
-func getCommitsHandler(c *gin.Context) {
+func GetCommitsHandler(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 	owner := c.Param("id")
 	repo := c.Param("repo")
