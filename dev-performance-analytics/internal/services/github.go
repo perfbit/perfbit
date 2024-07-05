@@ -44,3 +44,20 @@ func GetCommits(token, owner, repo, branch string) ([]*github.Commit, error) {
 
 	return commits, err
 }
+
+func GetBranches(token, owner, repo string) ([]*github.Branch, error) {
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: token},
+	)
+	tc := oauth2.NewClient(ctx, ts)
+
+	client := github.NewClient(tc)
+
+	branches, _, err := client.Repositories.ListBranches(ctx, owner, repo, nil)
+	if err != nil {
+		log.Fatalf("Error fetching branches: %v", err)
+	}
+
+	return branches, err
+}
