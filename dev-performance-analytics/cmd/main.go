@@ -1,4 +1,3 @@
-// cmd/main.go
 package main
 
 import (
@@ -10,13 +9,16 @@ import (
 )
 
 func main() {
-	// Load the configuration from .env file
 	config.LoadConfig()
 
-	// Set up the router
+	// Retrieve the GitHub token from the environment
+	githubToken := config.GetEnv("GITHUB_TOKEN")
+	if githubToken == "" {
+		log.Fatal("GITHUB_TOKEN is not set in the environment")
+	}
+
 	router := api.SetupRouter()
 
-	// Start the HTTP server
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

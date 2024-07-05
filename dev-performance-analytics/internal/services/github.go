@@ -26,7 +26,7 @@ func GetRepositories(token string) ([]*github.Repository, error) {
 	return repos, err
 }
 
-func GetCommits(token, owner, repo, branch string) ([]*github.Commit, error) {
+func GetCommits(token, owner, repo, branch string) ([]*github.RepositoryCommit, error) {
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: token},

@@ -1,10 +1,12 @@
 // internal/services/metrics.go
 package services
 
-func GeneratePerformanceMetrics(commits []*github.Commit) map[string]map[string]int {
+import "github.com/google/go-github/v39/github"
+
+func GeneratePerformanceMetrics(commits []*github.RepositoryCommit) map[string]map[string]int {
 	metrics := make(map[string]map[string]int)
 	for _, commit := range commits {
-		author := *commit.Author.Login
+		author := *commit.Commit.Author.Name
 		if metrics[author] == nil {
 			metrics[author] = make(map[string]int)
 		}
