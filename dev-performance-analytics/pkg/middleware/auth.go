@@ -5,6 +5,7 @@ import (
     "net/http"
 
     "github.com/gin-gonic/gin"
+	"dev-performance-analytics/pkg/config"
 )
 
 func AuthMiddleware() gin.HandlerFunc {

@@ -3,6 +3,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"dev-performance-analytics/pkg/middleware"
 )
 
 func SetupRouter() *gin.Engine {
