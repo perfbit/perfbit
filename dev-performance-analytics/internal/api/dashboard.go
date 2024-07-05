@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/maulikam/dev-performance-analytics/internal/services"
+	"dev-performance-analytics/internal/services"
 )
 
 func getDashboardData(c *gin.Context) {

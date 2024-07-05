@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/maulikam/dev-performance-analytics/pkg/config"
-	"github.com/maulikam/dev-performance-analytics/internal/api"
+	"dev-performance-analytics/pkg/config"
+	"dev-performance-analytics/internal/api"
 )
 
 func main() {
