@@ -1,0 +1,17 @@
+/* src/styles/Components.css */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    cursor: pointer;
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+li:hover {
+    background-color: #f0f0f0;
+}
