@@ -52,6 +52,7 @@ const Login = ({ setToken }) => {
             type="submit"
             fullWidth
             variant="contained"
+            color="primary"
             sx={{ mt: 3, mb: 2 }}
           >
             Login
@@ -72,6 +73,7 @@ const Login = ({ setToken }) => {
             fullWidth
             variant="outlined"
             startIcon={<GitHubIcon />}
+            color="inherit"
             sx={{ mt: 3, mb: 2 }}
             onClick={handleGitHubLogin}
             className="github-button"

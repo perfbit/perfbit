@@ -21,7 +21,7 @@ body {
     background-color: #fff; /* White background for the form */
     padding: 2em;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .form-container {
@@ -36,4 +36,27 @@ body {
 .github-button {
     margin-top: 2vh;
     margin-bottom: 2vh;
+}
+
+button {
+    text-transform: none;
+    background-color: #007bff; /* Notion-like button color */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue for hover */
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }

@@ -2,21 +2,22 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(to right, #141e30, #243b55);
+    background-color: #f5f5f5; /* Light background */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    color: #fff;
+    color: #333; /* Dark text color */
 }
 
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
-    font-weight: 700;
+    font-weight: 500; /* Slightly lighter font weight */
+    color: #333; /* Dark text color */
 }
 
 a {
-    color: #007bff;
+    color: #007bff; /* Notion-like link color */
     text-decoration: none;
 }
 
