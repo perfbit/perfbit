@@ -1,6 +1,39 @@
 /* src/components/Login.css */
-@media (min-width: 1025px) {
-  .h-custom-2 {
-    height: 100%;
-  }
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5; /* Light background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333; /* Dark text color */
+}
+
+.container {
+    margin-top: 8vh;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff; /* White background for the form */
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+    width: 100%;
+    margin-top: 1vh;
+}
+
+.grid-container {
+    margin-top: 2vh;
+}
+
+.github-button {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
 }

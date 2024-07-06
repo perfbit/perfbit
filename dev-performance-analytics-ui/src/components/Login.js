@@ -1,12 +1,7 @@
+// src/components/Login.js
 import React, { useState } from 'react';
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBIcon,
-  MDBInput
-} from 'mdb-react-ui-kit';
+import { Container, Box, Typography, TextField, Button, Grid, Link } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import './Login.css';
 
 const Login = ({ setToken }) => {
@@ -15,7 +10,6 @@ const Login = ({ setToken }) => {
 
   const handleStandardLogin = async (e) => {
     e.preventDefault();
-    // Implement standard login logic here
     console.log('Standard login with', username, password);
   };
 
@@ -24,49 +18,69 @@ const Login = ({ setToken }) => {
   };
 
   return (
-    <MDBContainer fluid>
-      <MDBRow>
-        <MDBCol sm='6'>
-          <div className='d-flex flex-row ps-5 pt-5'>
-            <MDBIcon fas icon="crow fa-3x me-3" style={{ color: '#709085' }} />
-            <span className="h1 fw-bold mb-0">Logo</span>
-          </div>
-          <div className='d-flex flex-column justify-content-center h-custom-2 w-75 pt-4'>
-            <h3 className="fw-normal mb-3 ps-5 pb-3" style={{ letterSpacing: '1px' }}>Log in</h3>
-            <form onSubmit={handleStandardLogin}>
-              <MDBInput
-                wrapperClass='mb-4 mx-5 w-100'
-                label='Username'
-                id='formControlLgUsername'
-                type='text'
-                size="lg"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <MDBInput
-                wrapperClass='mb-4 mx-5 w-100'
-                label='Password'
-                id='formControlLgPassword'
-                type='password'
-                size="lg"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <MDBBtn className="mb-4 px-5 mx-5 w-100" color='info' size='lg' type="submit">Login</MDBBtn>
-            </form>
-            <p className="small mb-5 pb-lg-3 ms-5"><a className="text-muted" href="#!">Forgot password?</a></p>
-            <p className='ms-5'>Don't have an account? <a href="#!" className="link-info">Register here</a></p>
-            <MDBBtn className="mb-4 px-5 mx-5 w-100" color='dark' size='lg' onClick={handleGitHubLogin}>
-              <MDBIcon fab icon="github" className="me-2" /> Login with GitHub
-            </MDBBtn>
-          </div>
-        </MDBCol>
-        <MDBCol sm='6' className='d-none d-sm-block px-0'>
-          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img3.webp"
-            alt="Background" className="w-100" style={{ objectFit: 'cover', objectPosition: 'left' }} />
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+    <Container component="main" maxWidth="xs" className="container">
+      <Box className="box">
+        <Typography component="h1" variant="h5">
+          Log in
+        </Typography>
+        <Box component="form" onSubmit={handleStandardLogin} className="form-container">
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            autoFocus
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Login
+          </Button>
+          <Grid container className="grid-container">
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" variant="body2">
+                {"Don't have an account? Register here"}
+              </Link>
+            </Grid>
+          </Grid>
+          <Button
+            fullWidth
+            variant="outlined"
+            startIcon={<GitHubIcon />}
+            sx={{ mt: 3, mb: 2 }}
+            onClick={handleGitHubLogin}
+            className="github-button"
+          >
+            Login with GitHub
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 };
 
