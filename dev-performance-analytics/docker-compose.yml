@@ -18,6 +18,8 @@ services:
       DATABASE_DSN: "host=db user=maulikdave password=yourpassword dbname=yourdb sslmode=disable"
     ports:
       - "8080:8080"
+    env_file:
+      - .env
     depends_on:
       - db
 

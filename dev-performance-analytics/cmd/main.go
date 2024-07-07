@@ -16,6 +16,11 @@ import (
     "dev-performance-analytics/internal/models"
     "dev-performance-analytics/pkg/config"
     "dev-performance-analytics/pkg/middleware"
+
+    _ "dev-performance-analytics/docs" // This line is necessary for go-swagger to find your docs!
+
+    swaggerFiles "github.com/swaggo/files"
+    ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 var (
@@ -29,8 +34,13 @@ func init() {
         log.Fatalf("Error loading .env file")
     }
 
+    // Log environment variables
+    log.Println("GITHUB_CLIENT_ID:", os.Getenv("GITHUB_CLIENT_ID"))
+    log.Println("GITHUB_CLIENT_SECRET:", os.Getenv("GITHUB_CLIENT_SECRET"))
+    log.Println("DATABASE_DSN:", os.Getenv("DATABASE_DSN"))
+
     githubOAuthConfig = &oauth2.Config{
-        RedirectURL:  "http://localhost:3000/auth/github/callback",
+        RedirectURL:  "http://localhost:8080/auth/github/callback",
         ClientID:     os.Getenv("GITHUB_CLIENT_ID"),
         ClientSecret: os.Getenv("GITHUB_CLIENT_SECRET"),
         Scopes:       []string{"user:email"},
@@ -38,6 +48,20 @@ func init() {
     }
 }
 
+// @title Developer Performance Analytics API
+// @version 1.0
+// @description This is a developer performance analytics server.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// @BasePath /api/v1
 func main() {
     config.LoadConfig()
 
@@ -64,6 +88,8 @@ func main() {
             v1.GET("/repos/:id/branches/:branch/commits", api.GetCommitsHandler)
         }
     }
+
+    router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
     log.Println("Server is running on port 8080")
     log.Fatal(http.ListenAndServe(":8080", router))
