@@ -6,21 +6,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"dev-performance-analytics/internal/models"
 	"dev-performance-analytics/pkg/config"
 	"dev-performance-analytics/internal/services"
 )
-
-// ErrorResponse represents the structure for error responses
-type ErrorResponse struct {
-	Message string `json:"message"`
-}
-
-// handleError handles the error by logging it and sending a response to the client
-func handleError(c *gin.Context, err error, statusCode int) {
-	log.Printf("Error: %v", err)
-	c.JSON(statusCode, ErrorResponse{Message: err.Error()})
-}
 
 func LoginHandler(c *gin.Context) {
 	var loginData struct {

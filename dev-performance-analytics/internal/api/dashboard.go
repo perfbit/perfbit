@@ -8,11 +8,6 @@ import (
 	"dev-performance-analytics/internal/services"
 )
 
-func handleError(c *gin.Context, err error, statusCode int) {
-	log.Printf("Error: %v", err)
-	c.JSON(statusCode, gin.H{"error": err.Error()})
-}
-
 func getDashboardData(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 	owner := c.Query("owner")
