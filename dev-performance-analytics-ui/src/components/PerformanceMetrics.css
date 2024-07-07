@@ -1,0 +1,38 @@
+/* src/styles/PerformanceMetrics.css */
+.performance-metrics {
+  margin: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.performance-metrics h2 {
+  margin-bottom: 20px;
+}
+
+.performance-metrics ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.performance-metrics li {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+}
+
+.performance-metrics li:hover {
+  background-color: #f0f0f0;
+}
+
+.performance-metrics p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.performance-metrics small {
+  color: #666;
+}

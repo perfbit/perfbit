@@ -1,0 +1,35 @@
+/* src/styles/BranchList.css */
+.branch-list {
+  margin: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.branch-list h2 {
+  margin-bottom: 20px;
+}
+
+.branch-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.branch-list li {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+}
+
+.branch-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.branch-list a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}

@@ -1,6 +1,8 @@
+// src/components/Dashboard.js
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../services/api';
-import RepoList from './RepoList';
+import './Dashboard.css';
 
 const Dashboard = ({ token }) => {
     const [repos, setRepos] = useState([]);
@@ -18,8 +20,14 @@ const Dashboard = ({ token }) => {
     }, [token]);
 
     return (
-        <div>
+        <div className="dashboard">
             <h2>Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><Link to="/repos">Repositories</Link></li>
+                    <li><Link to="/metrics">Performance Metrics</Link></li>
+                </ul>
+            </nav>
             <RepoList repos={repos} token={token} />
         </div>
     );

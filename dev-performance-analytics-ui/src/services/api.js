@@ -7,14 +7,17 @@ const api = {
         return axios.post(`${API_URL}/login`, { username, password });
     },
     getRepositories: (token) => {
-        return axios.get(`${API_URL}/repos`, { headers: { Authorization: token } });
+        return axios.get(`${API_URL}/repos`, { headers: { Authorization: `Bearer ${token}` } });
     },
-    getBranches: (token, owner, repo) => {
-        return axios.get(`${API_URL}/repos/${owner}/${repo}/branches`, { headers: { Authorization: token } });
+    getBranches: (token, repoId) => {
+        return axios.get(`${API_URL}/repos/${repoId}/branches`, { headers: { Authorization: `Bearer ${token}` } });
     },
-    getCommits: (token, owner, repo, branch) => {
-        return axios.get(`${API_URL}/repos/${owner}/${repo}/branches/${branch}/commits`, { headers: { Authorization: token } });
+    getCommits: (token, repoId, branch) => {
+        return axios.get(`${API_URL}/repos/${repoId}/branches/${branch}/commits`, { headers: { Authorization: `Bearer ${token}` } });
     },
+    getPerformanceMetrics: (token) => {
+        return axios.get(`${API_URL}/metrics`, { headers: { Authorization: `Bearer ${token}` } });
+    }
 };
 
 export default api;

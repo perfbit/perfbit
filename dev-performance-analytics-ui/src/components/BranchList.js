@@ -1,36 +1,37 @@
-import React, { useState, useEffect } from 'react';
+// src/components/BranchList.js
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
-import CommitList from './CommitList';
+import './BranchList.css';
 
-const BranchList = ({ repo, token }) => {
-    const [branches, setBranches] = useState([]);
-    const [selectedBranch, setSelectedBranch] = useState(null);
+const BranchList = ({ token }) => {
+  const { id } = useParams();
+  const [branches, setBranches] = useState([]);
 
-    useEffect(() => {
-        const fetchBranches = async () => {
-            try {
-                const response = await api.getBranches(token, repo.owner.login, repo.name);
-                setBranches(response.data);
-            } catch (error) {
-                console.error('Failed to fetch branches:', error);
-            }
-        };
-        fetchBranches();
-    }, [repo, token]);
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const response = await api.getBranches(token, id);
+        setBranches(response.data);
+      } catch (error) {
+        console.error('Failed to fetch branches:', error);
+      }
+    };
+    fetchBranches();
+  }, [id, token]);
 
-    return (
-        <div>
-            <h3>Branches in {repo.name}</h3>
-            <ul>
-                {branches.map((branch) => (
-                    <li key={branch.name} onClick={() => setSelectedBranch(branch)}>
-                        {branch.name}
-                    </li>
-                ))}
-            </ul>
-            {selectedBranch && <CommitList repo={repo} branch={selectedBranch} token={token} />}
-        </div>
-    );
+  return (
+    <div className="branch-list">
+      <h2>Branches</h2>
+      <ul>
+        {branches.map(branch => (
+          <li key={branch.name}>
+            <Link to={`/repos/${id}/branches/${branch.name}/commits`}>{branch.name}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default BranchList;

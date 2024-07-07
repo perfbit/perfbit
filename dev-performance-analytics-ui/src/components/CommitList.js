@@ -1,33 +1,38 @@
-import React, { useState, useEffect } from 'react';
+// src/components/CommitList.js
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import api from '../services/api';
+import './CommitList.css';
 
-const CommitList = ({ repo, branch, token }) => {
-    const [commits, setCommits] = useState([]);
+const CommitList = ({ token }) => {
+  const { id, branch } = useParams();
+  const [commits, setCommits] = useState([]);
 
-    useEffect(() => {
-        const fetchCommits = async () => {
-            try {
-                const response = await api.getCommits(token, repo.owner.login, repo.name, branch.name);
-                setCommits(response.data);
-            } catch (error) {
-                console.error('Failed to fetch commits:', error);
-            }
-        };
-        fetchCommits();
-    }, [repo, branch, token]);
+  useEffect(() => {
+    const fetchCommits = async () => {
+      try {
+        const response = await api.getCommits(token, id, branch);
+        setCommits(response.data);
+      } catch (error) {
+        console.error('Failed to fetch commits:', error);
+      }
+    };
+    fetchCommits();
+  }, [id, branch, token]);
 
-    return (
-        <div>
-            <h3>Commits in {branch.name} branch</h3>
-            <ul>
-                {commits.map((commit) => (
-                    <li key={commit.sha}>
-                        {commit.commit.message}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  return (
+    <div className="commit-list">
+      <h2>Commits</h2>
+      <ul>
+        {commits.map(commit => (
+          <li key={commit.sha}>
+            <p>{commit.commit.message}</p>
+            <small>By {commit.commit.author.name} on {new Date(commit.commit.author.date).toLocaleString()}</small>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default CommitList;
