@@ -1,5 +1,5 @@
-# Start with the official Golang image
-FROM golang:1.18-alpine
+# Build stage
+FROM golang:1.18.3-alpine3.15 AS builder
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
@@ -15,6 +15,15 @@ COPY . .
 
 # Build the Go app
 RUN go build -o main cmd/main.go
+
+# Final stage
+FROM alpine:3.15
+
+# Set the Current Working Directory inside the container
+WORKDIR /root/
+
+# Copy the pre-built binary file from the previous stage
+COPY --from=builder /app/main .
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
