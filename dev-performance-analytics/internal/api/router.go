@@ -1,4 +1,3 @@
-// internal/api/router.go
 package api
 
 import (
@@ -11,15 +10,15 @@ func SetupRouter() *gin.Engine {
 
 	v1 := router.Group("/api/v1")
 	{
-	    // internal/api/router.go
-        v1.Use(middleware.AuthMiddleware())
+	    v1.Use(middleware.AuthMiddleware())
 		v1.POST("/login", LoginHandler)
 		v1.GET("/repos", GetRepositoriesHandler)
 		v1.GET("/repos/:id/branches", GetBranchesHandler)
 		v1.GET("/repos/:id/branches/:branch/commits", GetCommitsHandler)
+		v1.GET("/dashboard", getDashboardData) // Added this line to register the dashboard endpoint
 	}
 
 	return router
 }
 
-// Add handler functions here
+// Add handler functions here if needed
