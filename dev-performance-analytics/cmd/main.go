@@ -13,6 +13,7 @@ import (
     gh "golang.org/x/oauth2/github"
 
     "dev-performance-analytics/internal/api"
+    "dev-performance-analytics/internal/models"
     "dev-performance-analytics/pkg/config"
     "dev-performance-analytics/pkg/middleware"
 )
@@ -39,6 +40,12 @@ func init() {
 
 func main() {
     config.LoadConfig()
+
+    // Migrate the schema
+    err := config.DB.AutoMigrate(&models.User{}, &models.Repository{}, &models.Branch{}, &models.Commit{})
+    if err != nil {
+        log.Fatalf("Failed to migrate database: %v", err)
+    }
 
     router := gin.Default()
 

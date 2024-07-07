@@ -1,11 +1,13 @@
 package api
 
 import (
-	"net/http"
-	"encoding/json"
+	"errors"
 	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"dev-performance-analytics/internal/models"
+	"dev-performance-analytics/pkg/config"
 	"dev-performance-analytics/internal/services"
 )
 
@@ -20,11 +22,6 @@ func handleError(c *gin.Context, err error, statusCode int) {
 	c.JSON(statusCode, ErrorResponse{Message: err.Error()})
 }
 
-var users = map[string]string{
-	"user1": "password1",
-	"user2": "password2",
-}
-
 func LoginHandler(c *gin.Context) {
 	var loginData struct {
 		Username string `json:"username"`
@@ -36,8 +33,8 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	expectedPassword, exists := users[loginData.Username]
-	if !exists || expectedPassword != loginData.Password {
+	user, err := config.UserRepository.GetUserByUsername(loginData.Username)
+	if err != nil || user.Password != loginData.Password {
 		handleError(c, errors.New("invalid username or password"), http.StatusUnauthorized)
 		return
 	}
