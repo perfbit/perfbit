@@ -1,4 +1,4 @@
-package io.perfana.apis;
+package io.perfbit.apis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

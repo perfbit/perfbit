@@ -1,4 +1,4 @@
-package io.perfana.apis.config;
+package io.perfbit.apis.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
