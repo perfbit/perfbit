@@ -1,5 +1,5 @@
-// src/components/Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, Box, Typography, TextField, Button, Grid, Link } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import './Login.css';
@@ -7,6 +7,7 @@ import './Login.css';
 const Login = ({ setToken }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleStandardLogin = async (e) => {
     e.preventDefault();
@@ -16,6 +17,15 @@ const Login = ({ setToken }) => {
   const handleGitHubLogin = () => {
     window.location.href = 'http://localhost:8080/auth/github/login';
   };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      setToken(token);
+      navigate('/dashboard');
+    }
+  }, [setToken, navigate]);
 
   return (
     <Container component="main" maxWidth="xs" className="container">
