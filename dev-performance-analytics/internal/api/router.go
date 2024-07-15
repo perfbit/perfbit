@@ -11,9 +11,8 @@ import (
 
     "github.com/gin-contrib/cors"
     "github.com/gin-contrib/sessions"
-    "github.com/gin-contrib/sessions/cookie"
     "github.com/gin-gonic/gin"
-    "github.com/google/go-github/v39/github"
+    "github.com/google/go-github/v63/github"
     "golang.org/x/oauth2"
     gh "golang.org/x/oauth2/github"
     "dev-performance-analytics/common"
@@ -36,13 +35,7 @@ func init() {
 }
 
 // SetupRouter initializes the Gin router with all the endpoints
-func SetupRouter() *gin.Engine {
-    router := gin.Default()
-
-    // Add session middleware
-    store := cookie.NewStore([]byte("secret"))
-    router.Use(sessions.Sessions("mysession", store))
-
+func SetupRouter(router *gin.Engine) {
     // Configure CORS
     router.Use(cors.New(cors.Config{
         AllowOrigins:     []string{"http://localhost:3000"},
@@ -66,15 +59,13 @@ func SetupRouter() *gin.Engine {
         v1.GET("/repos/:id/branches/:branch/commits", GetCommitsHandler)
         v1.GET("/dashboard", getDashboardData)
     }
-
-    return router
 }
 
 // handleGitHubLogin godoc
 // @Summary GitHub Login
 // @Description Redirect to GitHub login
 // @Tags auth
-// @Produce  json
+// @Produce json
 // @Success 302
 // @Router /auth/github/login [get]
 func handleGitHubLogin(c *gin.Context) {
@@ -87,7 +78,7 @@ func handleGitHubLogin(c *gin.Context) {
 // @Summary GitHub Callback
 // @Description Handle GitHub callback and authenticate user
 // @Tags auth
-// @Produce  json
+// @Produce json
 // @Success 302
 // @Failure 400 {object} common.ErrorResponse
 // @Failure 500 {object} common.ErrorResponse
@@ -119,6 +110,10 @@ func handleGitHubCallback(c *gin.Context) {
 
     log.Printf("User %s authenticated successfully", user.GetLogin())
 
+    // Print and log the token
+    log.Printf("Token: %s", token.AccessToken)
+    fmt.Printf("Token: %s\n", token.AccessToken)
+
     // Save the OAuth token and user information in the session
     session := sessions.Default(c)
     session.Set("github_token", token.AccessToken)
@@ -127,6 +122,14 @@ func handleGitHubCallback(c *gin.Context) {
         log.Printf("Failed to save session: %v", err)
         c.JSON(http.StatusInternalServerError, common.ErrorResponse{Message: "failed to save session"})
         return
+    }
+
+    // Log session ID for debugging
+    sessionID := session.ID()
+    if sessionID == "" {
+        log.Println("Session ID is empty")
+    } else {
+        log.Printf("Session ID: %s", sessionID)
     }
 
     // Redirect to the frontend with the session token

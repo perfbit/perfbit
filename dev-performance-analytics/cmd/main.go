@@ -1,19 +1,25 @@
 package main
 
 import (
+    "encoding/gob"
     "log"
     "net/http"
     "os"
 
+    "github.com/gin-contrib/sessions"
+    "github.com/gin-gonic/gin"
     "github.com/joho/godotenv"
+
+    "github.com/antonlindstrom/pgstore"
+    "github.com/google/go-github/v63/github"
+
     "dev-performance-analytics/internal/api"
     "dev-performance-analytics/internal/models"
     "dev-performance-analytics/pkg/config"
 
-    _ "dev-performance-analytics/docs" // for go-swagger to find docs!
-
     swaggerFiles "github.com/swaggo/files"
     ginSwagger "github.com/swaggo/gin-swagger"
+    _ "dev-performance-analytics/docs" // for go-swagger to find docs!
 )
 
 func init() {
@@ -26,6 +32,10 @@ func init() {
     log.Println("GITHUB_CLIENT_ID:", os.Getenv("GITHUB_CLIENT_ID"))
     log.Println("GITHUB_CLIENT_SECRET:", os.Getenv("GITHUB_CLIENT_SECRET"))
     log.Println("DATABASE_DSN:", os.Getenv("DATABASE_DSN"))
+
+    // Register types for session
+    gob.Register(string(""))
+    gob.Register(github.User{})
 }
 
 // @title Developer Performance Analytics API
@@ -51,9 +61,27 @@ func main() {
         log.Fatalf("Failed to migrate database: %v", err)
     }
 
-    router := api.SetupRouter()
+    router := gin.Default()
+
+    // Add session middleware
+    store, err := pgstore.NewPGStore(os.Getenv("DATABASE_DSN"), []byte("secret"))
+    if err != nil {
+        log.Fatalf("Failed to create session store: %v", err)
+    }
+    defer store.Close()
+
+    store.Options = &sessions.Options{
+        Path:     "/",
+        MaxAge:   86400 * 7, // 7 days
+        HttpOnly: true,
+    }
+
+    router.Use(sessions.Sessions("mysession", store))
 
     router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+    // Initialize API routes
+    api.SetupRouter(router)
 
     log.Println("Server is running on port 8080")
     log.Fatal(http.ListenAndServe(":8080", router))
