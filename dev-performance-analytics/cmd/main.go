@@ -1,33 +1,19 @@
 package main
 
 import (
-    "context"
-    "fmt"
     "log"
     "net/http"
     "os"
 
-    "github.com/gin-contrib/sessions"
-    "github.com/gin-gonic/gin"
-    "github.com/google/go-github/v39/github"
     "github.com/joho/godotenv"
-    "golang.org/x/oauth2"
-    gh "golang.org/x/oauth2/github"
-
     "dev-performance-analytics/internal/api"
     "dev-performance-analytics/internal/models"
     "dev-performance-analytics/pkg/config"
-    "dev-performance-analytics/common"
 
     _ "dev-performance-analytics/docs" // for go-swagger to find docs!
 
     swaggerFiles "github.com/swaggo/files"
     ginSwagger "github.com/swaggo/gin-swagger"
-)
-
-var (
-    githubOAuthConfig *oauth2.Config
-    oauthStateString  = "random"
 )
 
 func init() {
@@ -40,14 +26,6 @@ func init() {
     log.Println("GITHUB_CLIENT_ID:", os.Getenv("GITHUB_CLIENT_ID"))
     log.Println("GITHUB_CLIENT_SECRET:", os.Getenv("GITHUB_CLIENT_SECRET"))
     log.Println("DATABASE_DSN:", os.Getenv("DATABASE_DSN"))
-
-    githubOAuthConfig = &oauth2.Config{
-        RedirectURL:  "http://localhost:8080/auth/github/callback",
-        ClientID:     os.Getenv("GITHUB_CLIENT_ID"),
-        ClientSecret: os.Getenv("GITHUB_CLIENT_SECRET"),
-        Scopes:       []string{"repo", "user"},
-        Endpoint:     gh.Endpoint,
-    }
 }
 
 // @title Developer Performance Analytics API
@@ -79,57 +57,4 @@ func main() {
 
     log.Println("Server is running on port 8080")
     log.Fatal(http.ListenAndServe(":8080", router))
-}
-
-// handleGitHubLogin godoc
-// @Summary GitHub Login
-// @Description Redirect to GitHub login
-// @Tags auth
-// @Produce  json
-// @Success 302
-// @Router /auth/github/login [get]
-func handleGitHubLogin(c *gin.Context) {
-    url := githubOAuthConfig.AuthCodeURL(oauthStateString)
-    c.Redirect(http.StatusTemporaryRedirect, url)
-}
-
-// handleGitHubCallback godoc
-// @Summary GitHub Callback
-// @Description Handle GitHub callback and authenticate user
-// @Tags auth
-// @Produce  json
-// @Success 302
-// @Failure 400 {object} common.ErrorResponse
-// @Failure 500 {object} common.ErrorResponse
-// @Router /auth/github/callback [get]
-func handleGitHubCallback(c *gin.Context) {
-    state := c.Query("state")
-    if state != oauthStateString {
-        c.JSON(http.StatusBadRequest, common.ErrorResponse{Message: "invalid state"})
-        return
-    }
-
-    code := c.Query("code")
-    token, err := githubOAuthConfig.Exchange(context.Background(), code)
-    if err != nil {
-        c.JSON(http.StatusInternalServerError, common.ErrorResponse{Message: "failed to exchange token"})
-        return
-    }
-
-    client := github.NewClient(githubOAuthConfig.Client(context.Background(), token))
-    user, _, err := client.Users.Get(context.Background(), "")
-    if err != nil {
-        c.JSON(http.StatusInternalServerError, common.ErrorResponse{Message: "failed to get user"})
-        return
-    }
-
-    // Save the OAuth token and user information in the session
-    session := sessions.Default(c)
-    session.Set("github_token", token.AccessToken)
-    session.Set("github_user", user.GetLogin())
-    session.Save()
-
-    // Redirect to the frontend with the session token
-    redirectURL := fmt.Sprintf("http://localhost:3000/login?token=%s", token.AccessToken)
-    c.Redirect(http.StatusTemporaryRedirect, redirectURL)
 }
