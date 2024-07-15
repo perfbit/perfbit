@@ -42,3 +42,11 @@ func (s *UserService) CreateUser(user *model.User) error {
 func (s *UserService) VerifyUser(username, code string) error {
 	return s.Repo.VerifyUser(username, code)
 }
+
+func (s *UserService) UpdateRefreshToken(username, refreshToken string) error {
+	return s.Repo.UpdateRefreshToken(username, refreshToken)
+}
+
+func (s *UserService) GetUserByUsername(username string) (*model.User, error) {
+	return s.Repo.FindByUsername(username)
+}

@@ -10,6 +10,7 @@ import (
 
 	"github.com/maulikam/perfbit/auth-service/internal/config"
 	"github.com/maulikam/perfbit/auth-service/pkg/handler"
+	"github.com/maulikam/perfbit/auth-service/pkg/middleware"
 	"github.com/maulikam/perfbit/auth-service/pkg/repository"
 	"github.com/maulikam/perfbit/auth-service/pkg/service"
 	"github.com/pressly/goose/v3"
@@ -40,5 +41,15 @@ func main() {
 	http.HandleFunc("/login", authHandler.Login)
 	http.HandleFunc("/signup", authHandler.Signup)
 	http.HandleFunc("/verify", authHandler.Verify)
+	http.HandleFunc("/refresh", authHandler.Refresh)
+
+	// Protected routes
+	protected := http.NewServeMux()
+	protected.Handle("/protected-endpoint", middleware.JWTAuth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("This is a protected endpoint"))
+	})))
+
+	http.Handle("/protected-endpoint", protected)
+
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

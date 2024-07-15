@@ -29,6 +29,11 @@ type verifyRequest struct {
 	Code     string `json:"code"`
 }
 
+type tokenResponse struct {
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+}
+
 type AuthHandler struct {
 	UserService service.UserService
 }
@@ -60,7 +65,24 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("Login successful"))
+	accessToken, refreshToken, err := utils.GenerateJWT(req.Username)
+	if err != nil {
+		http.Error(w, "Error generating tokens", http.StatusInternalServerError)
+		return
+	}
+
+	if err := h.UserService.UpdateRefreshToken(req.Username, refreshToken); err != nil {
+		http.Error(w, "Error updating refresh token", http.StatusInternalServerError)
+		return
+	}
+
+	res := tokenResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(res)
 }
 
 func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request) {
@@ -131,4 +153,52 @@ func isValidEmail(email string) bool {
 func generateVerificationCode() string {
 	rand.Seed(time.Now().UnixNano())
 	return fmt.Sprintf("%06d", rand.Intn(1000000))
+}
+
+type refreshRequest struct {
+	RefreshToken string `json:"refresh_token"`
+}
+
+func (h *AuthHandler) Refresh(w http.ResponseWriter, r *http.Request) {
+	var req refreshRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		return
+	}
+
+	claims, err := utils.ValidateJWT(req.RefreshToken)
+	if err != nil {
+		http.Error(w, "Invalid refresh token", http.StatusUnauthorized)
+		return
+	}
+
+	user, err := h.UserService.GetUserByUsername(claims.Username)
+	if err != nil {
+		http.Error(w, "Error retrieving user", http.StatusInternalServerError)
+		return
+	}
+
+	if user == nil || user.RefreshToken != req.RefreshToken {
+		http.Error(w, "Invalid refresh token", http.StatusUnauthorized)
+		return
+	}
+
+	accessToken, refreshToken, err := utils.GenerateJWT(user.Username)
+	if err != nil {
+		http.Error(w, "Error generating tokens", http.StatusInternalServerError)
+		return
+	}
+
+	if err := h.UserService.UpdateRefreshToken(user.Username, refreshToken); err != nil {
+		http.Error(w, "Error updating refresh token", http.StatusInternalServerError)
+		return
+	}
+
+	res := tokenResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(res)
 }
