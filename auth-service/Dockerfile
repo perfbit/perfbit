@@ -1,7 +1,7 @@
 # Dockerfile
 
 # Build stage
-FROM golang:1.18-alpine AS builder
+FROM golang:1.22-alpine AS builder
 
 WORKDIR /app
 
@@ -24,6 +24,11 @@ WORKDIR /root/
 
 # Copy the binary from the builder stage
 COPY --from=builder /app/auth-service .
+
+# Copy migrations
+COPY db/migrations /root/db/migrations
+
+COPY .env /root/.env
 
 # Expose the application port
 EXPOSE 8080

@@ -3,13 +3,16 @@ package main
 
 import (
 	"database/sql"
+	"log"
+	"net/http"
+
 	_ "github.com/lib/pq"
+
 	"github.com/maulikam/auth-service/internal/config"
 	"github.com/maulikam/auth-service/pkg/handler"
 	"github.com/maulikam/auth-service/pkg/repository"
 	"github.com/maulikam/auth-service/pkg/service"
-	"log"
-	"net/http"
+	"github.com/pressly/goose/v3"
 )
 
 func main() {
@@ -25,9 +28,16 @@ func main() {
 	}
 	defer db.Close()
 
+	// Run migrations
+	if err := goose.Up(db, "db/migrations"); err != nil {
+		log.Fatal(err)
+	}
+
 	userRepo := repository.NewPostgresUserRepository(db)
 	userService := service.UserService{Repo: userRepo}
+	authHandler := handler.NewAuthHandler(userService)
 
-	http.HandleFunc("/login", handler.Login(userService))
+	http.HandleFunc("/login", authHandler.Login)
+	http.HandleFunc("/signup", authHandler.Signup)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

@@ -4,21 +4,24 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="go init microservices">
-      <change afterPath="$PROJECT_DIR$/auth-service/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/cmd/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/docker healthcheck" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/internal/config/config.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/main" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/pkg/model/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/pkg/utils/hash.go" afterDir="false" />
+    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="username password">
+      <change afterPath="$PROJECT_DIR$/auth-service/db/migrations/20240715214424_users_table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/wait-for-it.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commit-service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/commit-service/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contribution-service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/contribution-service/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard-service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard-service/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/metrics-service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/metrics-service/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repo-service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/repo-service/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reporting-service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/reporting-service/go.mod" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +36,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file:///opt/homebrew/Cellar/go/1.21.6/libexec" />
+  <component name="GOROOT" url="file://$USER_HOME$/go/go1.22.5" />
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -65,6 +68,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultGoTemplateProperty": "Go File",
+    "Docker.auth-service: Compose Deployment.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
@@ -76,7 +80,8 @@
     "last_opened_file_path": "/Users/maulikdave",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -84,6 +89,29 @@
       <recent name="$PROJECT_DIR$/auth-service/cmd" />
       <recent name="$PROJECT_DIR$/auth-service" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml" />
+      <method v="2" />
+    </configuration>
+    <configuration name="auth-service: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="envFilePath" value="$PROJECT_DIR$/auth-service/.env" />
+          <option name="removeImagesOnComposeDown" value="ALL" />
+          <option name="removeVolumesOnComposeDown" value="true" />
+          <option name="commandLineOptions" value="--build" />
+          <option name="sourceFilePath" value="auth-service/docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.auth-service: Compose Deployment" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -99,7 +127,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="go init microservices" />
-    <option name="LAST_COMMIT_MESSAGE" value="go init microservices" />
+    <MESSAGE value="init auth microservice" />
+    <MESSAGE value="added migration in auth service" />
+    <MESSAGE value="username password" />
+    <option name="LAST_COMMIT_MESSAGE" value="username password" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
