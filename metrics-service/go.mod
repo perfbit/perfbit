@@ -1,3 +1,3 @@
-module github.com/maulikam/metrics-service
+module github.com/maulikam/perfbit/metrics-service
 
 go 1.22

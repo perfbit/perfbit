@@ -1,4 +1,4 @@
-module github.com/maulikam/auth-service
+module github.com/maulikam/perfbit/auth-service
 
 go 1.22
 

@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/maulikam/auth-service/pkg/model"
-	"github.com/maulikam/auth-service/pkg/repository"
-	"github.com/maulikam/auth-service/pkg/utils"
+	"github.com/maulikam/perfbit/auth-service/pkg/model"
+	"github.com/maulikam/perfbit/auth-service/pkg/repository"
+	"github.com/maulikam/perfbit/auth-service/pkg/utils"
 	"log"
 )
 

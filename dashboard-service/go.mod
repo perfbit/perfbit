@@ -1,3 +1,3 @@
-module github.com/maulikam/dashboard-service
+module github.com/maulikam/perfbit/dashboard-service
 
 go 1.22
