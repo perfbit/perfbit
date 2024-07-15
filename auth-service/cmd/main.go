@@ -39,5 +39,6 @@ func main() {
 
 	http.HandleFunc("/login", authHandler.Login)
 	http.HandleFunc("/signup", authHandler.Signup)
+	http.HandleFunc("/verify", authHandler.Verify)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

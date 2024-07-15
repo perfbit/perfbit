@@ -1,13 +1,17 @@
 package handler
 
 import (
+	"database/sql"
 	"encoding/json"
-	"net/http"
-	"regexp"
-
+	"fmt"
+	"github.com/maulikam/auth-service/pkg/email"
 	"github.com/maulikam/auth-service/pkg/model"
 	"github.com/maulikam/auth-service/pkg/service"
 	"github.com/maulikam/auth-service/pkg/utils"
+	"math/rand"
+	"net/http"
+	"regexp"
+	"time"
 )
 
 type loginRequest struct {
@@ -18,6 +22,11 @@ type loginRequest struct {
 type signupRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type verifyRequest struct {
+	Username string `json:"username"`
+	Code     string `json:"code"`
 }
 
 type AuthHandler struct {
@@ -46,8 +55,8 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if user == nil {
-		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+	if user == nil || !user.Verified {
+		http.Error(w, "Invalid username or password, or email not verified", http.StatusUnauthorized)
 		return
 	}
 
@@ -72,9 +81,13 @@ func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	verificationCode := generateVerificationCode()
+
 	user := &model.User{
 		Username: req.Username,
 		Password: hashedPassword,
+		Verified: false,
+		Code:     verificationCode,
 	}
 
 	if err := h.UserService.CreateUser(user); err != nil {
@@ -82,11 +95,40 @@ func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := email.SendVerificationEmail(req.Username, verificationCode); err != nil {
+		http.Error(w, "Error sending verification email", http.StatusInternalServerError)
+		return
+	}
+
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("User created successfully"))
+	w.Write([]byte("Verification email sent"))
+}
+
+func (h *AuthHandler) Verify(w http.ResponseWriter, r *http.Request) {
+	var req verifyRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		return
+	}
+
+	if err := h.UserService.VerifyUser(req.Username, req.Code); err != nil {
+		if err == sql.ErrNoRows {
+			http.Error(w, "Invalid verification code", http.StatusBadRequest)
+		} else {
+			http.Error(w, "Error verifying user", http.StatusInternalServerError)
+		}
+		return
+	}
+
+	w.Write([]byte("Email verified successfully"))
 }
 
 func isValidEmail(email string) bool {
 	re := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 	return re.MatchString(email)
+}
+
+func generateVerificationCode() string {
+	rand.Seed(time.Now().UnixNano())
+	return fmt.Sprintf("%06d", rand.Intn(1000000))
 }

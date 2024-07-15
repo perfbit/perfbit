@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="username password">
+    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="username password email validation">
+      <change afterPath="$PROJECT_DIR$/auth-service/db/migrations/20240715223220_add_verified_and_code_columns.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/pkg/email/email.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/cmd/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Go File" />
         <option value="Dockerfile" />
+        <option value="Go File" />
       </list>
     </option>
   </component>
@@ -116,7 +123,8 @@
     <MESSAGE value="init auth microservice" />
     <MESSAGE value="added migration in auth service" />
     <MESSAGE value="username password" />
-    <option name="LAST_COMMIT_MESSAGE" value="username password" />
+    <MESSAGE value="username password email validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="username password email validation" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
