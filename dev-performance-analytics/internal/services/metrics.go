@@ -7,8 +7,11 @@ import (
 	"github.com/google/go-github/v39/github"
 )
 
-func GeneratePerformanceMetrics(commits []*github.RepositoryCommit) map[string]map[string]int {
-	metrics := make(map[string]map[string]int)
+// PerformanceMetrics represents the performance metrics for commits
+type PerformanceMetrics map[string]map[string]int
+
+func GeneratePerformanceMetrics(commits []*github.RepositoryCommit) PerformanceMetrics {
+	metrics := make(PerformanceMetrics)
 	for _, commit := range commits {
 		author := *commit.Author.Login
 		if metrics[author] == nil {

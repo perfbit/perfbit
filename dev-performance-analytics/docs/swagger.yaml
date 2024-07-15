@@ -1,8 +1,47 @@
 basePath: /api/v1
 definitions:
-  main.ErrorResponse:
+  api.ErrorResponse:
     properties:
       message:
+        type: string
+    type: object
+  api.LoginData:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  common.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  services.Branch:
+    properties:
+      name:
+        type: string
+    type: object
+  services.Commit:
+    properties:
+      message:
+        type: string
+      sha:
+        type: string
+    type: object
+  services.PerformanceMetrics:
+    additionalProperties:
+      additionalProperties:
+        type: integer
+      type: object
+    type: object
+  services.Repository:
+    properties:
+      full_name:
+        type: string
+      id:
+        type: integer
+      name:
         type: string
     type: object
 host: localhost:8080
@@ -30,11 +69,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            $ref: '#/definitions/common.ErrorResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            $ref: '#/definitions/common.ErrorResponse'
       summary: GitHub Callback
       tags:
       - auth
@@ -49,4 +88,174 @@ paths:
       summary: GitHub Login
       tags:
       - auth
+  /dashboard:
+    get:
+      description: Fetch performance metrics for a repository
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Repository owner
+        in: query
+        name: owner
+        required: true
+        type: string
+      - description: Repository name
+        in: query
+        name: repo
+        required: true
+        type: string
+      - description: Branch name
+        in: query
+        name: branch
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.PerformanceMetrics'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      summary: Get Dashboard Data
+      tags:
+      - dashboard
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: User login with username and password
+      parameters:
+      - description: Login Data
+        in: body
+        name: loginData
+        required: true
+        schema:
+          $ref: '#/definitions/api.LoginData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+      summary: User Login
+      tags:
+      - auth
+  /repos:
+    get:
+      description: Fetch repositories for authenticated user
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/services.Repository'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+      summary: Get Repositories
+      tags:
+      - repositories
+  /repos/{id}/branches:
+    get:
+      description: Fetch branches for a given repository
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Repository owner
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Repository name
+        in: path
+        name: repo
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/services.Branch'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+      summary: Get Branches
+      tags:
+      - branches
+  /repos/{id}/branches/{branch}/commits:
+    get:
+      description: Fetch commits for a given branch of a repository
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Repository owner
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Repository name
+        in: path
+        name: repo
+        required: true
+        type: string
+      - description: Branch name
+        in: path
+        name: branch
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/services.Commit'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+      summary: Get Commits
+      tags:
+      - commits
 swagger: "2.0"

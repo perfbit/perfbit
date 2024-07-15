@@ -1,3 +1,4 @@
+// internal/api/dashboard.go
 package api
 
 import (
@@ -8,6 +9,18 @@ import (
 	"dev-performance-analytics/internal/services"
 )
 
+// getDashboardData godoc
+// @Summary Get Dashboard Data
+// @Description Fetch performance metrics for a repository
+// @Tags dashboard
+// @Produce  json
+// @Param Authorization header string true "Bearer token"
+// @Param owner query string true "Repository owner"
+// @Param repo query string true "Repository name"
+// @Param branch query string true "Branch name"
+// @Success 200 {object} services.PerformanceMetrics
+// @Failure 500 {object} ErrorResponse
+// @Router /dashboard [get]
 func getDashboardData(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 	owner := c.Query("owner")
