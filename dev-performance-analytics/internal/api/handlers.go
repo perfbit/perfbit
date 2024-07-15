@@ -2,13 +2,13 @@
 package api
 
 import (
+	"dev-performance-analytics/internal/services"
+	"dev-performance-analytics/pkg/config"
 	"errors"
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"dev-performance-analytics/pkg/config"
-	"dev-performance-analytics/internal/services"
 )
 
 // LoginData represents the data required for user login
@@ -57,6 +57,7 @@ func LoginHandler(c *gin.Context) {
 // @Router /repos [get]
 func GetRepositoriesHandler(c *gin.Context) {
 	token := c.GetHeader("Authorization")
+	log.Println("token found in GetRepositoriesHandler %s", token)
 	log.Println("Fetching repositories")
 	repos, err := services.GetRepositories(token)
 	if err != nil {

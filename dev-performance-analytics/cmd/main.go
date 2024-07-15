@@ -1,25 +1,22 @@
 package main
 
 import (
-    "encoding/gob"
-    "log"
-    "net/http"
-    "os"
-
-    "github.com/gin-contrib/sessions"
-    "github.com/gin-gonic/gin"
-    "github.com/joho/godotenv"
-
-    "github.com/antonlindstrom/pgstore"
-    "github.com/google/go-github/v63/github"
-
+    "database/sql"
     "dev-performance-analytics/internal/api"
     "dev-performance-analytics/internal/models"
     "dev-performance-analytics/pkg/config"
+    _ "dev-performance-analytics/docs" // for go-swagger to find docs!
+    "encoding/gob"
+    "log"
+    "os"
 
+    "github.com/gin-contrib/sessions"
+    "github.com/gin-contrib/sessions/postgres"
+    "github.com/gin-gonic/gin"
+    "github.com/google/go-github/v63/github"
+    "github.com/joho/godotenv"
     swaggerFiles "github.com/swaggo/files"
     ginSwagger "github.com/swaggo/gin-swagger"
-    _ "dev-performance-analytics/docs" // for go-swagger to find docs!
 )
 
 func init() {
@@ -52,6 +49,7 @@ func init() {
 
 // @host localhost:8080
 // @BasePath /api/v1
+// main.go
 func main() {
     config.LoadConfig()
 
@@ -64,17 +62,23 @@ func main() {
     router := gin.Default()
 
     // Add session middleware
-    store, err := pgstore.NewPGStore(os.Getenv("DATABASE_DSN"), []byte("secret"))
+    db, err := sql.Open("postgres", os.Getenv("DATABASE_DSN"))
+    if err != nil {
+        log.Fatalf("Failed to connect to database: %v", err)
+    }
+    defer db.Close()
+
+    store, err := postgres.NewStore(db, []byte("secret"))
     if err != nil {
         log.Fatalf("Failed to create session store: %v", err)
     }
-    defer store.Close()
 
-    store.Options = &sessions.Options{
+    store.Options(sessions.Options{
         Path:     "/",
         MaxAge:   86400 * 7, // 7 days
         HttpOnly: true,
-    }
+        Secure:   false, // Should be false for localhost without HTTPS
+    })
 
     router.Use(sessions.Sessions("mysession", store))
 
@@ -84,5 +88,6 @@ func main() {
     api.SetupRouter(router)
 
     log.Println("Server is running on port 8080")
-    log.Fatal(http.ListenAndServe(":8080", router))
+    log.Fatal(router.Run(":8080"))
 }
+

@@ -17,7 +17,7 @@ COPY . .
 COPY .env .env
 
 # Build the Go app
-RUN go build -o main cmd/main.go cmd/pg_session_store.go
+RUN go build -o main cmd/main.go
 
 # Final stage
 FROM alpine:3.15

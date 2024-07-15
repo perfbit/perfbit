@@ -3,11 +3,13 @@ package config
 
 import (
     "dev-performance-analytics/internal/repository"
-    "gorm.io/driver/postgres"
-    "gorm.io/gorm"
     "log"
     "os"
+    "time"
+
     "github.com/joho/godotenv"
+    "gorm.io/driver/postgres"
+    "gorm.io/gorm"
 )
 
 var (
@@ -19,11 +21,21 @@ var (
 func initDB() {
     dsn := os.Getenv("DATABASE_DSN")
     var err error
-    DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-    if err != nil {
-        log.Fatalf("Failed to connect to database: %v", err)
+
+    // Retry logic
+    maxRetries := 3
+    for i := 0; i < maxRetries; i++ {
+        DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+        if err == nil {
+            log.Println("Database connection established")
+            return
+        }
+        log.Printf("Failed to connect to database (attempt %d/%d): %v", i+1, maxRetries, err)
+        time.Sleep(5 * time.Second)
     }
-    log.Println("Database connection established")
+
+    // If we reach here, all retries failed
+    log.Fatalf("Failed to connect to database after %d attempts: %v", maxRetries, err)
 }
 
 func initRepositories() {
@@ -32,10 +44,10 @@ func initRepositories() {
 }
 
 func LoadConfig() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
+    err := godotenv.Load()
+    if err != nil {
+        log.Fatalf("Error loading .env file")
+    }
 
     // Initialize database
     initDB()
@@ -44,5 +56,5 @@ func LoadConfig() {
 }
 
 func GetEnv(key string) string {
-	return os.Getenv(key)
+    return os.Getenv(key)
 }

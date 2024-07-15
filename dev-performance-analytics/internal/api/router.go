@@ -1,9 +1,14 @@
-// internal/api/router.go
 package api
 
 import (
     "context"
+    "dev-performance-analytics/common"
+    "dev-performance-analytics/internal/models"
+    "dev-performance-analytics/pkg/config"
+    "dev-performance-analytics/pkg/middleware"
+    "errors"
     "fmt"
+    "database/sql" // Add this import
     "log"
     "net/http"
     "os"
@@ -15,8 +20,7 @@ import (
     "github.com/google/go-github/v63/github"
     "golang.org/x/oauth2"
     gh "golang.org/x/oauth2/github"
-    "dev-performance-analytics/common"
-    "dev-performance-analytics/pkg/middleware"
+    "gorm.io/gorm"
 )
 
 var (
@@ -118,16 +122,57 @@ func handleGitHubCallback(c *gin.Context) {
     session := sessions.Default(c)
     session.Set("github_token", token.AccessToken)
     session.Set("github_user", user.GetLogin())
+    log.Printf("User information saved successfully in session: %s", session.Get("github_token"))
     if err := session.Save(); err != nil {
         log.Printf("Failed to save session: %v", err)
         c.JSON(http.StatusInternalServerError, common.ErrorResponse{Message: "failed to save session"})
         return
     }
 
+    // Store the token in the database
+    db, err := sql.Open("postgres", os.Getenv("DATABASE_DSN"))
+    if err != nil {
+        log.Fatalf("Failed to connect to database: %v", err)
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to connect to database"})
+        return
+    }
+    defer db.Close()
+
+    _, err = db.Exec("UPDATE http_sessions SET token = $1 WHERE key = $2", token.AccessToken, session.ID())
+    if err != nil {
+        log.Printf("Failed to store token in the database: %v", err)
+        c.JSON(http.StatusInternalServerError, common.ErrorResponse{Message: "failed to store token in the database"})
+        return
+    }
+
+    // Add user to the database if not exists
+    dbGorm := config.DB
+    var existingUser models.User
+    if err := dbGorm.Where("github_id = ?", user.GetID()).First(&existingUser).Error; err != nil {
+        if errors.Is(err, gorm.ErrRecordNotFound) {
+            newUser := models.User{
+                GithubID: user.GetID(),
+                Login:    user.GetLogin(),
+                Name:     user.GetName(),
+                Email:    user.GetEmail(),
+            }
+            if err := dbGorm.Create(&newUser).Error; err != nil {
+                log.Printf("Failed to create user in the database: %v", err)
+                c.JSON(http.StatusInternalServerError, common.ErrorResponse{Message: "failed to create user in the database"})
+                return
+            }
+        } else {
+            log.Printf("Database error: %v", err)
+            c.JSON(http.StatusInternalServerError, common.ErrorResponse{Message: "database error"})
+            return
+        }
+    }
+
     // Log session ID for debugging
     sessionID := session.ID()
+    log.Printf("Session ID after save: %s", sessionID)
     if sessionID == "" {
-        log.Println("Session ID is empty")
+        log.Println("Session ID is empty after saving")
     } else {
         log.Printf("Session ID: %s", sessionID)
     }
