@@ -1,4 +1,10 @@
 basePath: /api/v1
+definitions:
+  main.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -12,5 +18,35 @@ info:
   termsOfService: http://swagger.io/terms/
   title: Developer Performance Analytics API
   version: "1.0"
-paths: {}
+paths:
+  /auth/github/callback:
+    get:
+      description: Handle GitHub callback and authenticate user
+      produces:
+      - application/json
+      responses:
+        "302":
+          description: Found
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: GitHub Callback
+      tags:
+      - auth
+  /auth/github/login:
+    get:
+      description: Redirect to GitHub login
+      produces:
+      - application/json
+      responses:
+        "302":
+          description: Found
+      summary: GitHub Login
+      tags:
+      - auth
 swagger: "2.0"
