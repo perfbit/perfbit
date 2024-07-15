@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="username password email validation">
-      <change afterPath="$PROJECT_DIR$/auth-service/db/migrations/20240715223220_add_verified_and_code_columns.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/pkg/email/email.go" afterDir="false" />
+    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="jwt access token and refresh token functionallity implemented">
+      <change afterPath="$PROJECT_DIR$/auth-service/db/migrations/20240715230319_add_verification_and_tokens_columns.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/pkg/middleware/jwt.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/pkg/utils/jwt.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/cmd/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" afterDir="false" />
@@ -65,7 +66,7 @@
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;microservice-project-structure&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;jwt-token-verification&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/maulikdave&quot;,
@@ -82,6 +83,23 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="perfbit" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="perfbit" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
@@ -124,7 +142,8 @@
     <MESSAGE value="added migration in auth service" />
     <MESSAGE value="username password" />
     <MESSAGE value="username password email validation" />
-    <option name="LAST_COMMIT_MESSAGE" value="username password email validation" />
+    <MESSAGE value="jwt access token and refresh token functionallity implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="jwt access token and refresh token functionallity implemented" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
