@@ -1,9 +1,9 @@
-// pkg/handler/auth.go
 package handler
 
 import (
 	"encoding/json"
 	"net/http"
+	"regexp"
 
 	"github.com/maulikam/auth-service/pkg/model"
 	"github.com/maulikam/auth-service/pkg/service"
@@ -35,6 +35,11 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !isValidEmail(req.Username) {
+		http.Error(w, "Invalid email format", http.StatusBadRequest)
+		return
+	}
+
 	user, err := h.UserService.Authenticate(req.Username, req.Password)
 	if err != nil {
 		http.Error(w, "Error authenticating user", http.StatusInternalServerError)
@@ -56,6 +61,11 @@ func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !isValidEmail(req.Username) {
+		http.Error(w, "Invalid email format", http.StatusBadRequest)
+		return
+	}
+
 	hashedPassword, err := utils.HashPassword(req.Password)
 	if err != nil {
 		http.Error(w, "Error creating user", http.StatusInternalServerError)
@@ -74,4 +84,9 @@ func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("User created successfully"))
+}
+
+func isValidEmail(email string) bool {
+	re := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	return re.MatchString(email)
 }
