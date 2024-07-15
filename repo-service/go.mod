@@ -1,3 +1,3 @@
-module github.com/maulikam/repo-service
+module github.com/maulikam/perfbit/repo-service
 
 go 1.22

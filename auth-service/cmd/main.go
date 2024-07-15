@@ -8,10 +8,10 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/maulikam/auth-service/internal/config"
-	"github.com/maulikam/auth-service/pkg/handler"
-	"github.com/maulikam/auth-service/pkg/repository"
-	"github.com/maulikam/auth-service/pkg/service"
+	"github.com/maulikam/perfbit/auth-service/internal/config"
+	"github.com/maulikam/perfbit/auth-service/pkg/handler"
+	"github.com/maulikam/perfbit/auth-service/pkg/repository"
+	"github.com/maulikam/perfbit/auth-service/pkg/service"
 	"github.com/pressly/goose/v3"
 )
 

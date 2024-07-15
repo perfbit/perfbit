@@ -2,7 +2,7 @@ package repository
 
 import (
 	"database/sql"
-	"github.com/maulikam/auth-service/pkg/model"
+	"github.com/maulikam/perfbit/auth-service/pkg/model"
 )
 
 type UserRepository interface {
