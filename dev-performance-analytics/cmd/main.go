@@ -6,11 +6,8 @@ import (
     "log"
     "net/http"
     "os"
-    "time"
 
-    cors "github.com/gin-contrib/cors"
     "github.com/gin-contrib/sessions"
-    "github.com/gin-contrib/sessions/cookie"
     "github.com/gin-gonic/gin"
     "github.com/google/go-github/v39/github"
     "github.com/joho/godotenv"
@@ -20,7 +17,7 @@ import (
     "dev-performance-analytics/internal/api"
     "dev-performance-analytics/internal/models"
     "dev-performance-analytics/pkg/config"
-    "dev-performance-analytics/pkg/middleware"
+    "dev-performance-analytics/common"
 
     _ "dev-performance-analytics/docs" // for go-swagger to find docs!
 
@@ -76,39 +73,7 @@ func main() {
         log.Fatalf("Failed to migrate database: %v", err)
     }
 
-    router := gin.Default()
-
-    // Session middleware
-    store := cookie.NewStore([]byte("secret"))
-    router.Use(sessions.Sessions("mysession", store))
-
-    // CORS configuration
-    router.Use(cors.New(cors.Config{
-        AllowWildcard:       true,
-        AllowOrigins:        []string{"http://localhost:3000"},
-        AllowMethods:        []string{"PUT", "GET", "POST", "DELETE"},
-        AllowHeaders:        []string{"Origin", "Authorization", "Content-Type"},
-        ExposeHeaders:       []string{},
-        AllowCredentials:    true,
-        MaxAge:              50 * time.Second,
-        AllowPrivateNetwork: true,
-    }))
-
-    // Set up routes
-    router.GET("/auth/github/login", handleGitHubLogin)
-    router.GET("/auth/github/callback", handleGitHubCallback)
-
-    apiGroup := router.Group("/api")
-    {
-        v1 := apiGroup.Group("/v1")
-        {
-            v1.Use(middleware.AuthMiddleware()) // Your existing middleware if any
-            v1.POST("/login", api.LoginHandler)
-            v1.GET("/repos", api.GetRepositoriesHandler)
-            v1.GET("/repos/:id/branches", api.GetBranchesHandler)
-            v1.GET("/repos/:id/branches/:branch/commits", api.GetCommitsHandler)
-        }
-    }
+    router := api.SetupRouter()
 
     router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -134,27 +99,27 @@ func handleGitHubLogin(c *gin.Context) {
 // @Tags auth
 // @Produce  json
 // @Success 302
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} common.ErrorResponse
+// @Failure 500 {object} common.ErrorResponse
 // @Router /auth/github/callback [get]
 func handleGitHubCallback(c *gin.Context) {
     state := c.Query("state")
     if state != oauthStateString {
-        c.JSON(http.StatusBadRequest, ErrorResponse{Message: "invalid state"})
+        c.JSON(http.StatusBadRequest, common.ErrorResponse{Message: "invalid state"})
         return
     }
 
     code := c.Query("code")
     token, err := githubOAuthConfig.Exchange(context.Background(), code)
     if err != nil {
-        c.JSON(http.StatusInternalServerError, ErrorResponse{Message: "failed to exchange token"})
+        c.JSON(http.StatusInternalServerError, common.ErrorResponse{Message: "failed to exchange token"})
         return
     }
 
     client := github.NewClient(githubOAuthConfig.Client(context.Background(), token))
     user, _, err := client.Users.Get(context.Background(), "")
     if err != nil {
-        c.JSON(http.StatusInternalServerError, ErrorResponse{Message: "failed to get user"})
+        c.JSON(http.StatusInternalServerError, common.ErrorResponse{Message: "failed to get user"})
         return
     }
 
@@ -167,9 +132,4 @@ func handleGitHubCallback(c *gin.Context) {
     // Redirect to the frontend with the session token
     redirectURL := fmt.Sprintf("http://localhost:3000/login?token=%s", token.AccessToken)
     c.Redirect(http.StatusTemporaryRedirect, redirectURL)
-}
-
-// ErrorResponse represents the error response structure
-type ErrorResponse struct {
-    Message string `json:"message"`
 }

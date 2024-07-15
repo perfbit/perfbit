@@ -1,3 +1,4 @@
+// internal/api/handlers.go
 package api
 
 import (
@@ -10,11 +11,25 @@ import (
 	"dev-performance-analytics/internal/services"
 )
 
+// LoginData represents the data required for user login
+type LoginData struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+// LoginHandler godoc
+// @Summary User Login
+// @Description User login with username and password
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Param loginData body LoginData true "Login Data"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} common.ErrorResponse
+// @Failure 401 {object} common.ErrorResponse
+// @Router /login [post]
 func LoginHandler(c *gin.Context) {
-	var loginData struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
-	}
+	var loginData LoginData
 
 	if err := c.ShouldBindJSON(&loginData); err != nil {
 		handleError(c, err, http.StatusBadRequest)
@@ -31,6 +46,15 @@ func LoginHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
 }
 
+// GetRepositoriesHandler godoc
+// @Summary Get Repositories
+// @Description Fetch repositories for authenticated user
+// @Tags repositories
+// @Produce  json
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {array} services.Repository
+// @Failure 500 {object} common.ErrorResponse
+// @Router /repos [get]
 func GetRepositoriesHandler(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 	log.Println("Fetching repositories")
@@ -44,6 +68,17 @@ func GetRepositoriesHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, repos)
 }
 
+// GetBranchesHandler godoc
+// @Summary Get Branches
+// @Description Fetch branches for a given repository
+// @Tags branches
+// @Produce  json
+// @Param Authorization header string true "Bearer token"
+// @Param id path string true "Repository owner"
+// @Param repo path string true "Repository name"
+// @Success 200 {array} services.Branch
+// @Failure 500 {object} common.ErrorResponse
+// @Router /repos/{id}/branches [get]
 func GetBranchesHandler(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 	owner := c.Param("id")
@@ -60,6 +95,18 @@ func GetBranchesHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, branches)
 }
 
+// GetCommitsHandler godoc
+// @Summary Get Commits
+// @Description Fetch commits for a given branch of a repository
+// @Tags commits
+// @Produce  json
+// @Param Authorization header string true "Bearer token"
+// @Param id path string true "Repository owner"
+// @Param repo path string true "Repository name"
+// @Param branch path string true "Branch name"
+// @Success 200 {array} services.Commit
+// @Failure 500 {object} common.ErrorResponse
+// @Router /repos/{id}/branches/{branch}/commits [get]
 func GetCommitsHandler(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 	owner := c.Param("id")
