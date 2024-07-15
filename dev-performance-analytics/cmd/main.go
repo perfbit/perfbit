@@ -22,7 +22,7 @@ import (
     "dev-performance-analytics/pkg/config"
     "dev-performance-analytics/pkg/middleware"
 
-    _ "dev-performance-analytics/docs" // This line is necessary for go-swagger to find your docs!
+    _ "dev-performance-analytics/docs" // for go-swagger to find docs!
 
     swaggerFiles "github.com/swaggo/files"
     ginSwagger "github.com/swaggo/gin-swagger"
@@ -116,29 +116,45 @@ func main() {
     log.Fatal(http.ListenAndServe(":8080", router))
 }
 
+// handleGitHubLogin godoc
+// @Summary GitHub Login
+// @Description Redirect to GitHub login
+// @Tags auth
+// @Produce  json
+// @Success 302
+// @Router /auth/github/login [get]
 func handleGitHubLogin(c *gin.Context) {
     url := githubOAuthConfig.AuthCodeURL(oauthStateString)
     c.Redirect(http.StatusTemporaryRedirect, url)
 }
 
+// handleGitHubCallback godoc
+// @Summary GitHub Callback
+// @Description Handle GitHub callback and authenticate user
+// @Tags auth
+// @Produce  json
+// @Success 302
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /auth/github/callback [get]
 func handleGitHubCallback(c *gin.Context) {
     state := c.Query("state")
     if state != oauthStateString {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid state"})
+        c.JSON(http.StatusBadRequest, ErrorResponse{Message: "invalid state"})
         return
     }
 
     code := c.Query("code")
     token, err := githubOAuthConfig.Exchange(context.Background(), code)
     if err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to exchange token"})
+        c.JSON(http.StatusInternalServerError, ErrorResponse{Message: "failed to exchange token"})
         return
     }
 
     client := github.NewClient(githubOAuthConfig.Client(context.Background(), token))
     user, _, err := client.Users.Get(context.Background(), "")
     if err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to get user"})
+        c.JSON(http.StatusInternalServerError, ErrorResponse{Message: "failed to get user"})
         return
     }
 
@@ -151,4 +167,9 @@ func handleGitHubCallback(c *gin.Context) {
     // Redirect to the frontend with the session token
     redirectURL := fmt.Sprintf("http://localhost:3000/login?token=%s", token.AccessToken)
     c.Redirect(http.StatusTemporaryRedirect, redirectURL)
+}
+
+// ErrorResponse represents the error response structure
+type ErrorResponse struct {
+    Message string `json:"message"`
 }
