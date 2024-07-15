@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Container, Box, Typography, TextField, Button, Grid, Link } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
 import './Login.css';
 
 const Login = ({ setToken }) => {
@@ -9,16 +10,8 @@ const Login = ({ setToken }) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleStandardLogin = async (e) => {
-    e.preventDefault();
-    console.log('Standard login with', username, password);
-  };
-
-  const handleGitHubLogin = () => {
-    window.location.href = 'http://localhost:8080/auth/github/login';
-  };
-
   useEffect(() => {
+    // Extract the token from the URL if present
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     if (token) {
@@ -26,6 +19,21 @@ const Login = ({ setToken }) => {
       navigate('/dashboard');
     }
   }, [setToken, navigate]);
+
+  const handleStandardLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.login(username, password);
+      setToken(response.data.token);
+      navigate('/dashboard'); // Redirect to dashboard or home page
+    } catch (error) {
+      console.error('Failed to login:', error);
+    }
+  };
+
+  const handleGitHubLogin = () => {
+    window.location.href = 'http://localhost:8080/auth/github/login';
+  };
 
   return (
     <Container component="main" maxWidth="xs" className="container">

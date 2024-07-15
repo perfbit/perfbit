@@ -1,3 +1,4 @@
+// internal/api/router.go
 package api
 
 import (
@@ -20,5 +21,3 @@ func SetupRouter() *gin.Engine {
 
 	return router
 }
-
-// Add handler functions here if needed

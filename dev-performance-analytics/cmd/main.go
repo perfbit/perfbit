@@ -2,13 +2,15 @@ package main
 
 import (
     "context"
-    "fmt" // Importing the fmt package
+    "fmt"
     "log"
     "net/http"
     "os"
     "time"
 
     cors "github.com/gin-contrib/cors"
+    "github.com/gin-contrib/sessions"
+    "github.com/gin-contrib/sessions/cookie"
     "github.com/gin-gonic/gin"
     "github.com/google/go-github/v39/github"
     "github.com/joho/godotenv"
@@ -46,7 +48,7 @@ func init() {
         RedirectURL:  "http://localhost:8080/auth/github/callback",
         ClientID:     os.Getenv("GITHUB_CLIENT_ID"),
         ClientSecret: os.Getenv("GITHUB_CLIENT_SECRET"),
-        Scopes:       []string{"user:email"},
+        Scopes:       []string{"repo", "user"},
         Endpoint:     gh.Endpoint,
     }
 }
@@ -75,6 +77,10 @@ func main() {
     }
 
     router := gin.Default()
+
+    // Session middleware
+    store := cookie.NewStore([]byte("secret"))
+    router.Use(sessions.Sessions("mysession", store))
 
     // CORS configuration
     router.Use(cors.New(cors.Config{
@@ -130,13 +136,19 @@ func handleGitHubCallback(c *gin.Context) {
     }
 
     client := github.NewClient(githubOAuthConfig.Client(context.Background(), token))
-    _, _, err = client.Users.Get(context.Background(), "")
+    user, _, err := client.Users.Get(context.Background(), "")
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to get user"})
         return
     }
 
-    // Redirect to frontend with token
+    // Save the OAuth token and user information in the session
+    session := sessions.Default(c)
+    session.Set("github_token", token.AccessToken)
+    session.Set("github_user", user.GetLogin())
+    session.Save()
+
+    // Redirect to the frontend with the session token
     redirectURL := fmt.Sprintf("http://localhost:3000/login?token=%s", token.AccessToken)
     c.Redirect(http.StatusTemporaryRedirect, redirectURL)
 }
