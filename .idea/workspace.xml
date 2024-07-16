@@ -5,15 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="jwt access token and refresh token functionallity implemented">
-      <change afterPath="$PROJECT_DIR$/auth-service/db/migrations/20240715230319_add_verification_and_tokens_columns.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/pkg/middleware/jwt.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/pkg/utils/jwt.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/.env.local" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/.eslintrc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/next.config.mjs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/postcss.config.mjs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/public/next.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/public/vercel.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/globals.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/components/AuthForm.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/utils/auth.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/utils/axios.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/tailwind.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/pkg/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/model/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,14 +77,15 @@
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;jwt-token-verification&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;init-perfbit-ui-structure&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/maulikdave&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/maulikdave/GolandProjects/perfbit/nextjs-auth-ui/node_modules/typescript/lib&quot;
   }
 }</component>
   <component name="RecentsManager">
