@@ -3,6 +3,7 @@ package main
 
 import (
 	"database/sql"
+	"github.com/rs/cors"
 	"log"
 	"net/http"
 
@@ -38,10 +39,16 @@ func main() {
 	userService := service.UserService{Repo: userRepo}
 	authHandler := handler.NewAuthHandler(userService)
 
-	http.HandleFunc("/login", authHandler.Login)
-	http.HandleFunc("/signup", authHandler.Signup)
-	http.HandleFunc("/verify", authHandler.Verify)
-	http.HandleFunc("/refresh", authHandler.Refresh)
+	//http.HandleFunc("/login", authHandler.Login)
+	//http.HandleFunc("/signup", authHandler.Signup)
+	//http.HandleFunc("/verify", authHandler.Verify)
+	//http.HandleFunc("/refresh", authHandler.Refresh)
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/login", authHandler.Login)
+	mux.HandleFunc("/signup", authHandler.Signup)
+	mux.HandleFunc("/verify", authHandler.Verify)
+	mux.HandleFunc("/refresh", authHandler.Refresh)
 
 	// Protected routes
 	protected := http.NewServeMux()
@@ -49,7 +56,19 @@ func main() {
 		w.Write([]byte("This is a protected endpoint"))
 	})))
 
-	http.Handle("/protected-endpoint", protected)
+	mux.Handle("/protected-endpoint", protected)
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	// Add CORS middleware
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
+		AllowedHeaders:   []string{"Authorization", "Content-Type"},
+		AllowCredentials: true,
+	})
+
+	handlers := c.Handler(mux)
+
+	http.Handle("/protected-endpoint", protected)
+	log.Println("Server started at :8080")
+	log.Fatal(http.ListenAndServe(":8080", handlers))
 }
