@@ -56,7 +56,11 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	user, err := h.UserService.Authenticate(req.Username, req.Password)
 	if err != nil {
-		http.Error(w, "Error authenticating user", http.StatusInternalServerError)
+		if err == sql.ErrNoRows {
+			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+		} else {
+			http.Error(w, "Error authenticating user", http.StatusInternalServerError)
+		}
 		return
 	}
 
@@ -82,7 +86,10 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(res)
+	if err := json.NewEncoder(w).Encode(res); err != nil {
+		http.Error(w, "Error encoding response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request) {
@@ -94,6 +101,11 @@ func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request) {
 
 	if !isValidEmail(req.Username) {
 		http.Error(w, "Invalid email format", http.StatusBadRequest)
+		return
+	}
+
+	if len(req.Password) < 8 {
+		http.Error(w, "Password must be at least 8 characters long", http.StatusBadRequest)
 		return
 	}
 
@@ -123,7 +135,7 @@ func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("Verification email sent"))
+	w.Write([]byte("Verification email sent. Please check your inbox."))
 }
 
 func (h *AuthHandler) Verify(w http.ResponseWriter, r *http.Request) {
@@ -135,7 +147,7 @@ func (h *AuthHandler) Verify(w http.ResponseWriter, r *http.Request) {
 
 	if err := h.UserService.VerifyUser(req.Username, req.Code); err != nil {
 		if err == sql.ErrNoRows {
-			http.Error(w, "Invalid verification code", http.StatusBadRequest)
+			http.Error(w, "Invalid verification code or username", http.StatusBadRequest)
 		} else {
 			http.Error(w, "Error verifying user", http.StatusInternalServerError)
 		}
@@ -143,16 +155,6 @@ func (h *AuthHandler) Verify(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte("Email verified successfully"))
-}
-
-func isValidEmail(email string) bool {
-	re := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
-	return re.MatchString(email)
-}
-
-func generateVerificationCode() string {
-	rand.Seed(time.Now().UnixNano())
-	return fmt.Sprintf("%06d", rand.Intn(1000000))
 }
 
 type refreshRequest struct {
@@ -200,5 +202,18 @@ func (h *AuthHandler) Refresh(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(res)
+	if err := json.NewEncoder(w).Encode(res); err != nil {
+		http.Error(w, "Error encoding response", http.StatusInternalServerError)
+		return
+	}
+}
+
+func isValidEmail(email string) bool {
+	re := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	return re.MatchString(email)
+}
+
+func generateVerificationCode() string {
+	rand.Seed(time.Now().UnixNano())
+	return fmt.Sprintf("%06d", rand.Intn(1000000))
 }
