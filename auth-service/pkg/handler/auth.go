@@ -147,7 +147,7 @@ func (h *AuthHandler) Verify(w http.ResponseWriter, r *http.Request) {
 
 	if err := h.UserService.VerifyUser(req.Username, req.Code); err != nil {
 		if err == sql.ErrNoRows {
-			http.Error(w, "Invalid verification code or username", http.StatusBadRequest)
+			http.Error(w, "Invalid verification codes", http.StatusBadRequest)
 		} else {
 			http.Error(w, "Error verifying user", http.StatusInternalServerError)
 		}
