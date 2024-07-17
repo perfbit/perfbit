@@ -1,6 +1,6 @@
 "use client"; // This directive marks the component as a Client Component
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { signup, login } from '../utils/auth';
 import axios from 'axios';
 
@@ -13,8 +13,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
     const [isOtpSent, setIsOtpSent] = useState(false);
+    const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,6 +26,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
             } else {
                 await signup(username, password);
                 setIsOtpSent(true);
+                setSuccess('Verification email sent. Please check your inbox.');
                 onOtpSent();
             }
         } catch (err) {
@@ -39,17 +42,30 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
         const newOtp = [...otp];
         newOtp[index] = e.target.value;
         setOtp(newOtp);
+
+        // Auto tab to next input
+        if (e.target.value.length === 1 && index < otpRefs.current.length - 1) {
+            otpRefs.current[index + 1]?.focus();
+        }
     };
 
     const handleVerifyOtp = async () => {
         const otpCode = otp.join('');
+        console.log(`Verifying OTP: ${otpCode}`); // Debug log for OTP code
         // Call the verification endpoint with the OTP
         try {
-            // Replace with the actual verification logic
-            await axios.post('/verify', { username, code: otpCode });
+            const response = await axios.post('http://localhost:8080/verify', { username, code: otpCode });
+            console.log(`Verification response: ${response.data}`); // Debug log for response
             // Handle successful verification
+            setSuccess('OTP verified successfully!');
         } catch (err) {
-            setError('Invalid OTP or verification failed');
+            if (axios.isAxiosError(err)) {
+                console.log(`Verification error: ${err.response?.data}`); // Debug log for error response
+                setError(err.response?.data || 'Invalid OTP or verification failed');
+            } else {
+                console.log('Verification error: An error occurred'); // Debug log for general error
+                setError('Invalid OTP or verification failed');
+            }
         }
     };
 
@@ -84,6 +100,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
                         />
                     </div>
                     {error && <p className="text-red-500 text-sm">{error}</p>}
+                    {success && <p className="text-green-500 text-sm">{success}</p>}
                     <div>
                         <button
                             type="submit"
@@ -95,7 +112,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
                 </>
             ) : (
                 <>
-                    <div className="flex space-x-2">
+                    <div className="flex justify-center space-x-2">
                         {otp.map((digit, index) => (
                             <input
                                 key={index}
@@ -103,11 +120,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
                                 value={digit}
                                 onChange={handleOtpChange(index)}
                                 maxLength={1}
+                                ref={el => otpRefs.current[index] = el}
                                 className="w-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black text-center"
                             />
                         ))}
                     </div>
                     {error && <p className="text-red-500 text-sm">{error}</p>}
+                    {success && <p className="text-green-500 text-sm">{success}</p>}
                     <div>
                         <button
                             type="button"

@@ -3,18 +3,18 @@ package main
 
 import (
 	"database/sql"
-	"github.com/rs/cors"
 	"log"
 	"net/http"
 
 	_ "github.com/lib/pq"
+	"github.com/pressly/goose/v3"
+	"github.com/rs/cors"
 
 	"github.com/maulikam/perfbit/auth-service/internal/config"
 	"github.com/maulikam/perfbit/auth-service/pkg/handler"
 	"github.com/maulikam/perfbit/auth-service/pkg/middleware"
 	"github.com/maulikam/perfbit/auth-service/pkg/repository"
 	"github.com/maulikam/perfbit/auth-service/pkg/service"
-	"github.com/pressly/goose/v3"
 )
 
 func main() {
@@ -38,11 +38,6 @@ func main() {
 	userRepo := repository.NewPostgresUserRepository(db)
 	userService := service.UserService{Repo: userRepo}
 	authHandler := handler.NewAuthHandler(userService)
-
-	//http.HandleFunc("/login", authHandler.Login)
-	//http.HandleFunc("/signup", authHandler.Signup)
-	//http.HandleFunc("/verify", authHandler.Verify)
-	//http.HandleFunc("/refresh", authHandler.Refresh)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/login", authHandler.Login)
@@ -68,7 +63,7 @@ func main() {
 
 	handlers := c.Handler(mux)
 
-	http.Handle("/protected-endpoint", protected)
+	http.Handle("/", handlers) // Handle root to handlers
 	log.Println("Server started at :8080")
 	log.Fatal(http.ListenAndServe(":8080", handlers))
 }
