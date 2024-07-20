@@ -11,8 +11,29 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secret
       - POSTGRES_DB=authdb
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
     depends_on:
       - postgres
+
+  dashboard-service:
+    build: dashboard-service/.
+    ports:
+      - "8082:8080"
+    environment:
+      - DATABASE_URL=postgres://postgres:secret@postgres:5432/dashboarddb
+    depends_on:
+      - postgres
+    postgres:
+      image: docker.io/library/postgres:16-alpine
+      ports:
+        - "5433:5432"
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=secret
+        - POSTGRES_DB=dashboarddb
+      volumes:
+        - pgdata:/var/lib/postgresql/data
 
   postgres:
     image: docker.io/library/postgres:16-alpine
@@ -63,6 +84,14 @@ services:
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      AUTHENTIK_OAUTH2_PROVIDERS__0__CLIENT_ID: ${GITHUB_CLIENT_ID}
+      AUTHENTIK_OAUTH2_PROVIDERS__0__CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      AUTHENTIK_OAUTH2_PROVIDERS__0__AUTHORIZATION_URL: "https://github.com/login/oauth/authorize"
+      AUTHENTIK_OAUTH2_PROVIDERS__0__TOKEN_URL: "https://github.com/login/oauth/access_token"
+      AUTHENTIK_OAUTH2_PROVIDERS__0__USER_INFO_URL: "https://api.github.com/user"
+      AUTHENTIK_OAUTH2_PROVIDERS__0__NAME: "github"
     volumes:
       - ./media:/media
       - ./custom-templates:/templates
@@ -84,6 +113,8 @@ services:
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
     # `user: root` and the docker socket volume are optional.
     # See more for the docker socket integration here:
     # https://goauthentik.io/docs/outposts/integrations/docker

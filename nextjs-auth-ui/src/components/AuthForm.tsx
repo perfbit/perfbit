@@ -1,3 +1,5 @@
+// src/components/AuthForm.tsx
+
 "use client"; // This directive marks the component as a Client Component
 
 import { useState, useRef } from 'react';
@@ -5,6 +7,8 @@ import { signup, login } from '../utils/auth';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GitHubLoginButton from './GitHubLoginButton';
+import Header from './Header';
 
 interface AuthFormProps {
     mode: 'login' | 'signup';
@@ -70,6 +74,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
         }
     };
 
+    const handleGitHubLogin = () => {
+        window.location.href = 'http://localhost:8081/auth/github';
+    };
+
     return (
         <>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -109,6 +117,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
                                 {mode === 'login' ? 'Log In' : 'Sign Up'}
                             </button>
                         </div>
+                        <div>
+                            <GitHubLoginButton mode={mode} />
+                        </div>
                     </>
                 ) : (
                     <>
@@ -120,7 +131,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
                                     value={digit}
                                     onChange={handleOtpChange(index)}
                                     maxLength={1}
-                                    ref={el => otpRefs.current[index] = el}
+                                    ref={el => {
+                                        otpRefs.current[index] = el;
+                                    }}
                                     className="w-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black text-center"
                                 />
                             ))}

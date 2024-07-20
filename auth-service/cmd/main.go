@@ -3,12 +3,11 @@ package main
 
 import (
 	"database/sql"
-	"log"
-	"net/http"
-
 	_ "github.com/lib/pq"
 	"github.com/pressly/goose/v3"
 	"github.com/rs/cors"
+	"log"
+	"net/http"
 
 	"github.com/maulikam/perfbit/auth-service/internal/config"
 	"github.com/maulikam/perfbit/auth-service/pkg/handler"
@@ -44,6 +43,8 @@ func main() {
 	mux.HandleFunc("/signup", authHandler.Signup)
 	mux.HandleFunc("/verify", authHandler.Verify)
 	mux.HandleFunc("/refresh", authHandler.Refresh)
+	mux.HandleFunc("/auth/github", authHandler.HandleGitHubLogin)
+	mux.HandleFunc("/auth/github/callback", authHandler.HandleGitHubCallback)
 
 	// Protected routes
 	protected := http.NewServeMux()
@@ -64,6 +65,6 @@ func main() {
 	handlers := c.Handler(mux)
 
 	http.Handle("/", handlers) // Handle root to handlers
-	log.Println("Server started at :8080")
-	log.Fatal(http.ListenAndServe(":8080", handlers))
+	log.Println("Server started at :8081")
+	log.Fatal(http.ListenAndServe(":8081", handlers))
 }
