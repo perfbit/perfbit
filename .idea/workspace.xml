@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="configured authentik to use through docker-compose.yml">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="updated backend go auth service with sign in and up with github">
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/components/GitHubLoginButton.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextjs-auth-ui/src/components/AuthForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/components/AuthForm.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +147,8 @@
     <MESSAGE value="username password email validation" />
     <MESSAGE value="jwt access token and refresh token functionallity implemented" />
     <MESSAGE value="removed old code" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed old code" />
+    <MESSAGE value="updated backend go auth service with sign in and up with github" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated backend go auth service with sign in and up with github" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

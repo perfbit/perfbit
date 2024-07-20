@@ -1,3 +1,5 @@
+// components/AuthForm.tsx
+
 "use client"; // This directive marks the component as a Client Component
 
 import { useState, useRef } from 'react';
@@ -5,6 +7,7 @@ import { signup, login } from '../utils/auth';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GitHubLoginButton from './GitHubLoginButton';
 
 interface AuthFormProps {
     mode: 'login' | 'signup';
@@ -104,10 +107,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
                         <div>
                             <button
                                 type="submit"
-                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
+                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" >
                                 {mode === 'login' ? 'Log In' : 'Sign Up'}
                             </button>
+                        </div>
+                        <div>
+                            <GitHubLoginButton />
                         </div>
                     </>
                 ) : (
