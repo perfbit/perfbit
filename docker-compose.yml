@@ -16,6 +16,25 @@ services:
     depends_on:
       - postgres
 
+  dashboard-service:
+    build: dashboard-service/.
+    ports:
+      - "8082:8080"
+    environment:
+      - DATABASE_URL=postgres://postgres:secret@postgres:5432/dashboarddb
+    depends_on:
+      - postgres
+    postgres:
+      image: docker.io/library/postgres:16-alpine
+      ports:
+        - "5433:5432"
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=secret
+        - POSTGRES_DB=dashboarddb
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+
   postgres:
     image: docker.io/library/postgres:16-alpine
     ports:
