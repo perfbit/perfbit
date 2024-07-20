@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="added github login, Header.tsx to use logo and site icon">
-      <change afterPath="$PROJECT_DIR$/auth-service/db/migrations/20240720210111_updated_usertable.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/pkg/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/model/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nextjs-auth-ui/src/components/AuthForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/components/AuthForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nextjs-auth-ui/src/components/GitHubLoginButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/components/GitHubLoginButton.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="successful login" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -158,7 +148,8 @@
     <MESSAGE value="updated backend go auth service with sign in and up with github" />
     <MESSAGE value="front end code change for login with github" />
     <MESSAGE value="added github login, Header.tsx to use logo and site icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="added github login, Header.tsx to use logo and site icon" />
+    <MESSAGE value="successful login" />
+    <option name="LAST_COMMIT_MESSAGE" value="successful login" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
