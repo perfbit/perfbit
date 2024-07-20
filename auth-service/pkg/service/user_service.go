@@ -1,3 +1,4 @@
+// pkg/service/user_service.go
 package service
 
 import (
@@ -48,10 +49,9 @@ func (s *UserService) UpdateRefreshToken(username, refreshToken string) error {
 }
 
 func (s *UserService) GetUserByUsername(username string) (*model.User, error) {
-	return s.Repo.FindByUsername(username)
+	return s.Repo.GetUserByUsername(username)
 }
 
-// service/user_service.go
 func (s *UserService) GetUserByGitHubUsername(gitHubUsername string) (*model.User, error) {
 	return s.Repo.GetUserByGitHubUsername(gitHubUsername)
 }

@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="successful login" />
+    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="successful login">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/handler/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/middleware/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/middleware/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/repository/user_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/service/user_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pkg/utils/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pkg/utils/jwt.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

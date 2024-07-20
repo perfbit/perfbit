@@ -1,3 +1,4 @@
+// pkg/handler/auth.go
 package handler
 
 import (
@@ -163,7 +164,7 @@ func (h *AuthHandler) Verify(w http.ResponseWriter, r *http.Request) {
 
 	if err := h.UserService.VerifyUser(req.Username, req.Code); err != nil {
 		if err == sql.ErrNoRows {
-			http.Error(w, "Invalid verification codes", http.StatusBadRequest)
+			http.Error(w, "Invalid verification code", http.StatusBadRequest)
 		} else {
 			http.Error(w, "Error verifying user", http.StatusInternalServerError)
 		}
@@ -321,8 +322,8 @@ func (h *AuthHandler) HandleGitHubCallback(w http.ResponseWriter, r *http.Reques
 		log.Println("Existing GitHub user signed in")
 	}
 
-	// Redirect to a success page or dashboard
-	http.Redirect(w, r, "/dashboard", http.StatusTemporaryRedirect)
+	// Redirect to a success page or frontend dashboard
+	http.Redirect(w, r, "http://localhost:3000/dashboard", http.StatusTemporaryRedirect)
 }
 
 func isValidEmail(email string) bool {

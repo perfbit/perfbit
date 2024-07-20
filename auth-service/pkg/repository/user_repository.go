@@ -1,3 +1,4 @@
+// pkg/repository/user_repository.go
 package repository
 
 import (
@@ -25,9 +26,12 @@ func NewPostgresUserRepository(db *sql.DB) *PostgresUserRepository {
 
 func (r *PostgresUserRepository) FindByUsername(username string) (*model.User, error) {
 	user := &model.User{}
-	query := "SELECT id, username, password, verified, code, refresh_token FROM users WHERE username = $1"
-	err := r.db.QueryRow(query, username).Scan(&user.ID, &user.Username, &user.Password, &user.Verified, &user.Code, &user.RefreshToken)
+	query := "SELECT id, username, password, github_username, verified, code, refresh_token FROM users WHERE username = $1"
+	err := r.db.QueryRow(query, username).Scan(&user.ID, &user.Username, &user.Password, &user.GitHubUsername, &user.Verified, &user.Code, &user.RefreshToken)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
 		return nil, err
 	}
 	return user, nil
@@ -67,7 +71,6 @@ func (r *PostgresUserRepository) UpdateRefreshToken(username, refreshToken strin
 	return err
 }
 
-// repository/user_repository.go
 func (r *PostgresUserRepository) GetUserByGitHubUsername(gitHubUsername string) (*model.User, error) {
 	user := &model.User{}
 	query := "SELECT id, username, password, github_username, verified, code, refresh_token FROM users WHERE github_username = $1"
