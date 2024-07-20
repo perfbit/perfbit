@@ -44,7 +44,7 @@ func main() {
 	mux.HandleFunc("/verify", authHandler.Verify)
 	mux.HandleFunc("/refresh", authHandler.Refresh)
 	mux.HandleFunc("/auth/github", authHandler.HandleGitHubLogin)
-	mux.HandleFunc("/callback", authHandler.HandleGitHubCallback)
+	mux.HandleFunc("/auth/github/callback", authHandler.HandleGitHubCallback)
 
 	// Protected routes
 	protected := http.NewServeMux()

@@ -74,6 +74,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
         }
     };
 
+    const handleGitHubLogin = () => {
+        window.location.href = 'http://localhost:8081/auth/github';
+    };
+
     return (
         <>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -114,7 +118,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onOtpSent }) => {
                             </button>
                         </div>
                         <div>
-                            <GitHubLoginButton />
+                            <GitHubLoginButton mode={mode} />
                         </div>
                     </>
                 ) : (

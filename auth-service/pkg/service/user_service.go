@@ -50,3 +50,12 @@ func (s *UserService) UpdateRefreshToken(username, refreshToken string) error {
 func (s *UserService) GetUserByUsername(username string) (*model.User, error) {
 	return s.Repo.FindByUsername(username)
 }
+
+// service/user_service.go
+func (s *UserService) GetUserByGitHubUsername(gitHubUsername string) (*model.User, error) {
+	return s.Repo.GetUserByGitHubUsername(gitHubUsername)
+}
+
+func (s *UserService) UpdateUser(user *model.User) error {
+	return s.Repo.UpdateUser(user)
+}
