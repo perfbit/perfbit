@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -8,10 +9,25 @@ import (
 	"github.com/maulikam/perfbit/auth-service/pkg/model"
 	"github.com/maulikam/perfbit/auth-service/pkg/service"
 	"github.com/maulikam/perfbit/auth-service/pkg/utils"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/github"
+	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"regexp"
 	"time"
+)
+
+var (
+	githubOauthConfig = &oauth2.Config{
+		ClientID:     os.Getenv("GITHUB_CLIENT_ID"),
+		ClientSecret: os.Getenv("GITHUB_CLIENT_SECRET"),
+		Endpoint:     github.Endpoint,
+		RedirectURL:  "http://localhost:8081/callback",
+		Scopes:       []string{"user:email"},
+	}
+	oauthStateString = "random" // Replace with a secure random string
 )
 
 type loginRequest struct {
@@ -206,6 +222,42 @@ func (h *AuthHandler) Refresh(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error encoding response", http.StatusInternalServerError)
 		return
 	}
+}
+
+func (h *AuthHandler) HandleGitHubLogin(writer http.ResponseWriter, request *http.Request) {
+	url := githubOauthConfig.AuthCodeURL(oauthStateString)
+	http.Redirect(writer, request, url, http.StatusTemporaryRedirect)
+}
+
+func (h *AuthHandler) HandleGitHubCallback(w http.ResponseWriter, r *http.Request) {
+	if r.FormValue("state") != oauthStateString {
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	token, err := githubOauthConfig.Exchange(context.Background(), r.FormValue("code"))
+	if err != nil {
+		log.Println("Code exchange failed:", err)
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	response, err := http.Get("https://api.github.com/user?access_token=" + token.AccessToken)
+	if err != nil {
+		log.Println("Failed to get user info:", err)
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+	defer response.Body.Close()
+
+	userInfo := make(map[string]interface{})
+	json.NewDecoder(response.Body).Decode(&userInfo)
+
+	log.Println("User info:", userInfo)
+
+	// Here you can handle the user info, e.g., create a user session
+
+	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
 func isValidEmail(email string) bool {
