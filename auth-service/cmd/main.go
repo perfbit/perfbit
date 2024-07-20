@@ -19,7 +19,7 @@ import (
 
 func main() {
 	connStr := "host=" + config.GetEnv("POSTGRES_HOST", "localhost") +
-		" port=" + config.GetEnv("POSTGRES_PORT", "5432") +
+		" port=" + config.GetEnv("POSTGRES_PORT", "5433") +
 		" user=" + config.GetEnv("POSTGRES_USER", "postgres") +
 		" password=" + config.GetEnv("POSTGRES_PASSWORD", "secret") +
 		" dbname=" + config.GetEnv("POSTGRES_DB", "authdb") +

@@ -4,27 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="jwt access token and refresh token functionallity implemented">
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/.env.local" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/.eslintrc.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/next.config.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/postcss.config.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/public/next.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/public/vercel.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/globals.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/components/AuthForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/utils/auth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/utils/axios.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/tailwind.config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/tsconfig.json" afterDir="false" />
+    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="removed old code">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/.env" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextjs-auth-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/nextjs-auth-ui/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextjs-auth-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/nextjs-auth-ui/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="developer" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,28 +56,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;Docker.auth-service: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;init-perfbit-ui-structure&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/maulikdave&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/maulikdave/GolandProjects/perfbit/nextjs-auth-ui/node_modules/typescript/lib&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "Docker.auth-service: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "login-token-with-dashboard",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/Users/maulikdave",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/maulikdave/GolandProjects/perfbit/nextjs-auth-ui/node_modules/typescript/lib"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql_aurora_aws",
+      "postgresql"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/auth-service/cmd" />
       <recent name="$PROJECT_DIR$/auth-service" />
     </key>
@@ -118,21 +114,21 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="auth-service: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
-          <option name="envFilePath" value="$PROJECT_DIR$/auth-service/.env" />
+          <option name="envFilePath" value="$PROJECT_DIR$/.env" />
           <option name="removeImagesOnComposeDown" value="ALL" />
           <option name="removeVolumesOnComposeDown" value="true" />
           <option name="commandLineOptions" value="--build" />
-          <option name="sourceFilePath" value="auth-service/docker-compose.yml" />
+          <option name="sourceFilePath" value="docker-compose.yml" />
         </settings>
       </deployment>
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.auth-service: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -155,7 +151,8 @@
     <MESSAGE value="username password" />
     <MESSAGE value="username password email validation" />
     <MESSAGE value="jwt access token and refresh token functionallity implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="jwt access token and refresh token functionallity implemented" />
+    <MESSAGE value="removed old code" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed old code" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
