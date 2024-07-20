@@ -1,3 +1,5 @@
+// src/components/AuthForm.tsx
+
 "use client"; // This directive marks the component as a Client Component
 
 import { useState, useRef } from 'react';
@@ -6,6 +8,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GitHubLoginButton from './GitHubLoginButton';
+import Header from './Header';
 
 interface AuthFormProps {
     mode: 'login' | 'signup';

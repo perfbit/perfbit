@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import AuthForm from '../components/AuthForm';
+import Header from "@/components/Header";
 
 export default function Home() {
   const [mode, setMode] = useState<'signup' | 'login'>('signup');
@@ -13,6 +14,7 @@ export default function Home() {
 
   return (
       <main className="flex min-h-screen flex-col items-center justify-center p-6 bg-gray-50">
+        <Header/>
         <div className="w-full max-w-md space-y-8">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
