@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="updated backend go auth service with sign in and up with github">
-      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/components/GitHubLoginButton.tsx" afterDir="false" />
+    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="front end code change for login with github">
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/logo_bw.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/siteicon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/app/siteicon_bw.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/components/Header.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextjs-auth-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/nextjs-auth-ui/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nextjs-auth-ui/src/components/AuthForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/nextjs-auth-ui/src/components/AuthForm.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,6 +85,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/nextjs-auth-ui/src/app" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/auth-service/cmd" />
       <recent name="$PROJECT_DIR$/auth-service" />
@@ -148,7 +154,8 @@
     <MESSAGE value="jwt access token and refresh token functionallity implemented" />
     <MESSAGE value="removed old code" />
     <MESSAGE value="updated backend go auth service with sign in and up with github" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated backend go auth service with sign in and up with github" />
+    <MESSAGE value="front end code change for login with github" />
+    <option name="LAST_COMMIT_MESSAGE" value="front end code change for login with github" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
