@@ -1,8 +1,9 @@
 use serde::{Deserialize, Serialize};
+use sqlx::FromRow;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, FromRow, Debug)]
 pub struct Repository {
-    pub id: String,
+    pub id: i32,
     pub name: String,
     pub description: Option<String>,
     pub url: String,
