@@ -1,0 +1,5 @@
+[workspace]
+
+members = [
+  "dashboard_service_main"
+]
