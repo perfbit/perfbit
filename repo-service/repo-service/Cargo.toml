@@ -11,3 +11,5 @@ serde_json = "1.0"
 reqwest = { version = "0.11", features = ["json"] }
 tokio-postgres = "0.7"
 deadpool-postgres = { version = "0.8", features = ["tokio1"] }
+sqlx = { version = "0.5", features = ["runtime-tokio-rustls", "postgres", "migrate" ] }
+dotenv = "0.15"

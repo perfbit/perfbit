@@ -1,17 +1,21 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Commit {
     pub commit_hash: String,
     pub author_id: String,
+    pub author_name: String,
+    pub author_email: String,
     pub message: String,
     pub timestamp: String,
     pub changes: Changes,
+    pub url: String,
+    pub repository_id: String,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Changes {
-    pub added: u32,
-    pub modified: u32,
-    pub deleted: u32,
+    pub added: Vec<String>,
+    pub modified: Vec<String>,
+    pub deleted: Vec<String>,
 }
