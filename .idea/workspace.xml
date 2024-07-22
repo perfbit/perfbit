@@ -8,10 +8,8 @@
     <cargoProject FILE="$PROJECT_DIR$/repo-service/repo-service/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="successful login">
-      <change beforePath="$PROJECT_DIR$/.idea/perfbit.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/perfbit.iml" afterDir="false" />
+    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="updated codebase">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repo-service/repo-service/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/repo-service/repo-service/Cargo.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +70,7 @@
     &quot;git-widget-placeholder&quot;: &quot;dashboard-microservices-rust&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/maudave/fleet/perfbit&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -137,14 +136,6 @@
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-gosdk-33c477a475b1-e0158606a674-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.18034.61" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-GO-241.18034.61" />
-      </set>
-    </attachedChunks>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -155,6 +146,23 @@
       <updated>1721652330759</updated>
       <workItem from="1721652331875" duration="289000" />
     </task>
+    <task id="LOCAL-00001" summary="updated codebase">
+      <option name="closed" value="true" />
+      <created>1721652875245</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1721652875246</updated>
+    </task>
+    <task id="LOCAL-00002" summary="updated codebase">
+      <option name="closed" value="true" />
+      <created>1721652911236</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1721652911236</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,7 +180,8 @@
     <MESSAGE value="front end code change for login with github" />
     <MESSAGE value="added github login, Header.tsx to use logo and site icon" />
     <MESSAGE value="successful login" />
-    <option name="LAST_COMMIT_MESSAGE" value="successful login" />
+    <MESSAGE value="updated codebase" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated codebase" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
