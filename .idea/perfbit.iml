@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="EMPTY_MODULE" version="4">
-  <component name="NewModuleRootManager">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/dashboard-service/dashboard_service_main/src" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/dashboard-service/target" />
+      <sourceFolder url="file://$MODULE_DIR$/matsy/dashboard-service/dashboard_service_main/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/matsy/dashboard-service/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
