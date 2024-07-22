@@ -3,21 +3,13 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="ALL" />
   </component>
+  <component name="CargoProjects">
+    <cargoProject FILE="$PROJECT_DIR$/dashboard-service/Cargo.toml" />
+    <cargoProject FILE="$PROJECT_DIR$/repo-service/repo-service/Cargo.toml" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="successful login">
-      <change afterPath="$PROJECT_DIR$/dashboard-service/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard-service/Cargo.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard-service/diesel.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard-service/migrations/.keep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard-service/migrations/2024-07-20-171726_create_users/down.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard-service/migrations/2024-07-20-171726_create_users/up.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard-service/src/handlers.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard-service/src/main.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard-service/src/models.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard-service/src/schema.rs" afterDir="false" />
+    <list default="true" id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="updated codebase">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard-service/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,12 +39,15 @@
     &quot;assignee&quot;: &quot;maulikam&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/perfbit/perfbit.git",
-    "accountId": "62fdc4f2-e6f1-48e3-88a2-5b512791052a"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/perfbit/perfbit.git&quot;,
+    &quot;accountId&quot;: &quot;9188edda-844f-4220-9338-3e9084187c9e&quot;
   }
-}]]></component>
+}</component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="iww7mtl4" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -71,13 +66,17 @@
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;integrate-sso-github-using-authentik&quot;,
+    &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dashboard-microservices-rust&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/maulikdave&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/maudave/fleet/perfbit&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/Users/maulikdave/GolandProjects/perfbit/nextjs-auth-ui/node_modules/typescript/lib&quot;
   },
@@ -133,21 +132,39 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-      </list>
-    </recent_temporary>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-gosdk-33c477a475b1-e0158606a674-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.18034.61" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-GO-241.18034.61" />
-      </set>
-    </attachedChunks>
+  <component name="RustProjectSettings">
+    <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="42f8017f-a810-4b46-a16e-747a74248a65" name="Changes" comment="successful login" />
+      <created>1721652330759</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1721652330759</updated>
+      <workItem from="1721652331875" duration="289000" />
+    </task>
+    <task id="LOCAL-00001" summary="updated codebase">
+      <option name="closed" value="true" />
+      <created>1721652875245</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1721652875246</updated>
+    </task>
+    <task id="LOCAL-00002" summary="updated codebase">
+      <option name="closed" value="true" />
+      <created>1721652911236</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1721652911236</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
@@ -163,7 +180,8 @@
     <MESSAGE value="front end code change for login with github" />
     <MESSAGE value="added github login, Header.tsx to use logo and site icon" />
     <MESSAGE value="successful login" />
-    <option name="LAST_COMMIT_MESSAGE" value="successful login" />
+    <MESSAGE value="updated codebase" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated codebase" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
