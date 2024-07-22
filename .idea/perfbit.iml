@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
-  <component name="Go" enabled="true" />
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
+<module type="EMPTY_MODULE" version="4">
+  <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/dev-performance-analytics-ui/node_modules" />
+      <sourceFolder url="file://$MODULE_DIR$/dashboard-service/dashboard_service_main/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/dashboard-service/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
