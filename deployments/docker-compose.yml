@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+  authentik-server:
+    image: ghcr.io/goauthentik/server:2023.8.3
+    restart: unless-stopped
+    command: server
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_POSTGRESQL__HOST: authentik-postgres
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      AUTHENTIK_REDIS__HOST: authentik-redis
+    volumes:
+      - ../authentik/media:/media
+      - ../authentik/custom-templates:/templates
+    ports:
+      - "9000:9000"
+    depends_on:
+      - authentik-postgres
+      - authentik-redis
+
+  authentik-worker:
+    image: ghcr.io/goauthentik/server:2023.8.3
+    restart: unless-stopped
+    command: worker
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_POSTGRESQL__HOST: authentik-postgres
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      AUTHENTIK_REDIS__HOST: authentik-redis
+    volumes:
+      - ../authentik/media:/media
+      - ../authentik/custom-templates:/templates
+    depends_on:
+      - authentik-postgres
+      - authentik-redis
+
+  authentik-postgres:
+    image: postgres:13
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: authentik
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: authentik
+    volumes:
+      - ../authentik/database:/var/lib/postgresql/data
+
+  authentik-redis:
+    image: redis:alpine
+    restart: unless-stopped
+
+  auth-service:
+    build:
+      context: ../auth-service
+      dockerfile: Dockerfile
+    environment:
+      - AUTHENTIK_URL=http://authentik-server:9000
+      - CLIENT_ID=${AUTH_CLIENT_ID}
+      - CLIENT_SECRET=${AUTH_CLIENT_SECRET}
+      - REDIRECT_URL=http://localhost:8080/callback
+      - SESSION_SECRET=${SESSION_SECRET}
+      - REDIS_URL=redis:6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      - authentik-server
+      - redis
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"

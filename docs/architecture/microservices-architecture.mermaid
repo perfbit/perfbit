@@ -1,0 +1,36 @@
+graph TB
+    UI[User Interface]
+    API[API Gateway]
+    Auth[Authentication Service]
+    RepoMgmt[Repository Management Service]
+    DataFetch[Data Fetching Service]
+    DataProc[Data Processing Service]
+    Analytics[Analytics Service]
+    Reporting[Reporting Service]
+    DB[(Main Database)]
+    Cache[(Cache)]
+    
+    UI --> API
+    API --> Auth
+    API --> RepoMgmt
+    API --> DataFetch
+    API --> DataProc
+    API --> Analytics
+    API --> Reporting
+    
+    RepoMgmt --> DB
+    DataFetch --> DB
+    DataProc --> DB
+    Analytics --> DB
+    Reporting --> DB
+    
+    DataFetch --> Cache
+    DataProc --> Cache
+    Analytics --> Cache
+    Reporting --> Cache
+    
+    subgraph External Services
+        Git[Git APIs]
+    end
+    
+    DataFetch --> Git
