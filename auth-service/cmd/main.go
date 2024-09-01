@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/perfbit/perfbit/auth-service/internal/config"
 	"github.com/perfbit/perfbit/auth-service/internal/handlers"
+	"github.com/perfbit/perfbit/auth-service/internal/middleware"
 )
 
 func main() {
@@ -22,10 +23,12 @@ func main() {
 		log.Fatalf("Failed to create auth handler: %v", err)
 	}
 
+	authMiddleware := middleware.NewAuthMiddleware(cfg, authHandler.Provider(), authHandler.RedisClient())
+
 	r.HandleFunc("/login", authHandler.HandleLogin)
 	r.HandleFunc("/callback", authHandler.HandleCallback)
 	r.HandleFunc("/logout", authHandler.HandleLogout)
-	r.HandleFunc("/userinfo", authHandler.HandleUserInfo)
+	r.HandleFunc("/userinfo", authMiddleware.Authenticate(authHandler.HandleUserInfo))
 
 	log.Printf("Starting auth service on :8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {
